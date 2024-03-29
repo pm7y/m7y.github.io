@@ -1,14 +1,43 @@
 +++
 title = 'SQL Server High Dpi Settings'
-description = 'A short note to my future self on how to fix SSMS high DPI scaling issues.'
-summary = 'A short note to my future self on how to fix SSMS high DPI scaling issues.'
-#linkTitle = ''
-keywords = ['productivity', 'sql-server']
-date = 2021-01-03T00:00:00+10:00
+summary = "Overcome the challenge of distorted displays in SQL Server Management Studio on high DPI screens with this effective fix. This guide provides a straightforward solution to the common scaling issues encountered on 4K monitors, ensuring a crisp and clear SSMS interface. Whether it's disappearing buttons or weirdly scaled menus and dialogs, learn how to adjust compatibility settings and use a custom manifest file to optimize SSMS for your high-resolution display. Perfect for developers and database administrators seeking an enhanced SQL management experience."
+tags = [
+    "SQL Server",
+    "SSMS",
+    "High DPI Fix",
+    "4K Resolution",
+    "Display Scaling"
+]
+keywords = [
+    "Fix SSMS high DPI issues",
+    "SSMS display scaling fix",
+    "SQL Server Management Studio DPI settings",
+    "Adjust SSMS for 4K monitors",
+    "SSMS high resolution display fix",
+    "Optimize SSMS on high DPI screens",
+    "SSMS manifest file fix",
+    "SSMS Windows 10 scaling problem",
+    "SSMS UI scaling issue",
+    "SSMS compatibility settings",
+    "High DPI support for SSMS",
+    "SQL Server UI display fix",
+    "SSMS registry fix for high DPI",
+    "Improving SSMS display on 4K screens",
+    "SSMS high DPI scaling override"
+]
+categories = ['software']
+date = 2021-01-03
 draft = false
+aliases = ['/articles/2021-01/sql-server-high-dpi-settings']
+# [cover]
+#     image = 'before.png' # image path/url
+#     #alt = "qwerqwe" # alt text
+#     #caption = "asdfasdf" # display caption under cover
+#     relative = true # when using page bundles set this to true
+#     hidden = false # only hide on current single page
 +++
 
-_**tl;dr**_ This is a short note (mostly to my future self) on how to fix SQL Server Management Studio (SSMS) so that it doesn't look awful on high DPI screens.
+> _**tl;dr**_ This is a short note (mostly to my future self) on how to fix SQL Server Management Studio (SSMS) so that it doesn't look awful on high DPI screens.
 
 ## The Problem
 
@@ -33,9 +62,10 @@ I've tried many of them and some work and some don't. Every few months/years whe
 
 ```XML
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1"
+<assembly
+	xmlns="urn:schemas-microsoft-com:asm.v1"
           manifestVersion="1.0"
-          xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
+	xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
 	<dependency>
 		<dependentAssembly>
 			<assemblyIdentity type="win32"
@@ -55,7 +85,8 @@ I've tried many of them and some work and some don't. Every few months/years whe
 			                  publicKeyToken="1fc8b3b9a1e18e3b"/>
 		</dependentAssembly>
 	</dependency>
-	<trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+	<trustInfo
+		xmlns="urn:schemas-microsoft-com:asm.v3">
 		<security>
 			<requestedPrivileges>
 				<requestedExecutionLevel level="asInvoker"
@@ -64,12 +95,14 @@ I've tried many of them and some work and some don't. Every few months/years whe
 		</security>
 	</trustInfo>
 	<asmv3:application>
-		<asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
-			<ms_windowsSettings:dpiAware xmlns:ms_windowsSettings="http://schemas.microsoft.com/SMI/2005/WindowsSettings">false</ms_windowsSettings:dpiAware>
+		<asmv3:windowsSettings
+			xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
+			<ms_windowsSettings:dpiAware
+				xmlns:ms_windowsSettings="http://schemas.microsoft.com/SMI/2005/WindowsSettings">false
+			</ms_windowsSettings:dpiAware>
 		</asmv3:windowsSettings>
 	</asmv3:application>
 </assembly>
-
 ```
 
 4. Now run `regedit` (you will also need admin privelages for this) and locate the `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\SideBySide` section.

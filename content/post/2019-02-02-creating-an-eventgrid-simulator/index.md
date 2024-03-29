@@ -1,14 +1,37 @@
 +++
 title = 'Creating an Azure Event Grid Simulator'
-description = 'Some notes creating an Azure Event Grid Simulator in order to make local integration testing a whole lot easier.'
-summary = 'Some notes creating an Azure Event Grid Simulator in order to make local integration testing a whole lot easier.'
-#linkTitle = ''
-keywords = ['c#', 'azure event grid']
-date = 2019-02-05T00:00:00+10:00
+summary = 'Dive into the creation of an Azure Event Grid Simulator, a revolutionary tool designed to streamline local integration testing for Azure-based applications. This comprehensive guide offers insights into setting up and utilizing the simulator, ensuring seamless pub-sub mechanism testing without needing an actual Azure Event Grid. Ideal for developers looking to enhance their workflow with efficient, offline event handling and debugging. Discover how to configure topics, subscribe to events with webhooks, and authenticate securely, all within your local development environment.'
+tags = [
+    "Event Grid",
+    "Local Testing",
+    "Simulation",
+    "Azure Functions",
+    "Pub-Sub"
+]
+keywords = [
+    "Azure Event Grid Simulator",
+    "Local integration testing Azure",
+    "Azure pub-sub mechanism",
+    "Azure services event publishing",
+    "Event Grid topic configuration",
+    "Azure Event Grid local testing",
+    "Event Grid webhook subscription",
+    "Simulating Azure Event Grid",
+    "Azure function Event Grid trigger",
+    "Event Grid simulator GitHub",
+    "Azure Event Grid development",
+    "Publish subscribe Azure",
+    "Azure reactive programming",
+    "Event Grid simulator setup",
+    "Azure Event Grid security authentication"
+]
+categories = ['development']
+date = 2019-02-05
 draft = false
+aliases = ['/articles/2019-02/creating-an-eventgrid-simulator']
 +++
 
-_**tl;dr**_ Some notes creating an Azure Event Grid Simulator in order to make local integration testing a whole lot easier. It's on GitHub @ [https://github.com/pmcilreavy/AzureEventGridSimulator](https://github.com/pmcilreavy/AzureEventGridSimulator)
+> _**tl;dr**_ Some notes creating an Azure Event Grid Simulator in order to make local integration testing a whole lot easier. It's on GitHub @ [https://github.com/pm7y/AzureEventGridSimulator](https://github.com/pm7y/AzureEventGridSimulator)
 
 ## What is Azure Event Grid?
 
@@ -148,6 +171,6 @@ _Data.json_
 
 ## Feature Development
 
-I'm pretty happy with v1 so far. It's on GitHub @ https://github.com/pmcilreavy/AzureEventGridSimulator. I've identified a few more features I'd like to add to fill in some of the holes in functionality. Mainly around filtering and retries.
+I'm pretty happy with v1 so far. It's on GitHub @ https://github.com/pm7y/AzureEventGridSimulator. I've identified a few more features I'd like to add to fill in some of the holes in functionality. Mainly around filtering and retries.
 
 Thanks for reading.

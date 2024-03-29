@@ -1,0 +1,128 @@
+baseURL: https://m7y.me/
+title: m7y.me
+languageCode: en-au
+theme: PaperMod
+defaultTheme: dark
+paginate: 5
+enableRobotsTXT: true
+enableEmoji: true
+disqusShortname: blogilreavy
+googleAnalytics: G-VD4HKY6506
+enableInlineShortcodes: true
+copyright: |
+  [Privacy](/privacy) | © 2024 m7y.me |
+
+services:
+  disqus:
+    shortname: blogilreavy
+
+minify:
+  minifyOutput: true
+  disableXML: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+    -
+params:
+  env: production
+  description: On dotnet and the other things.
+  keywords:
+    - dotnet
+    - c#
+    - sql server
+    - azure
+    - blog
+  comments: true
+  disableFingerprinting: false
+  disableSpecial1stPost: true
+  showShareButtons: true
+  showReadingTime: true
+  showBreadCrumbs: true
+  showPostNavLinks: true
+  showWordCount: true
+  showToc: true
+  tocOpen: true
+  hidemeta: false
+  hideSummary: false
+  showRssButtonInSectionTermList: true
+  showPageNums: true
+  showCodeCopyButtons: true
+  disableAnchoredHeadings: false
+
+  assets:
+    disableHLJS: false
+    favicon: "./favicon.ico"
+    favicon16x16: "./favicon-16x16.png"
+    favicon32x32: "./favicon-32x32.png"
+    apple_touch_icon: "./apple-touch-icon.png"
+    safari_pinned_tab: "./apple-touch-icon.png"
+
+  label:
+    text: "m7y.me"
+    icon: /apple-touch-icon.png
+    iconHeight: 35
+
+  homeInfoParams:
+    Title: Hi there 👋
+    Content: Here's a few notes on dotnet and the other things.
+
+  socialIcons:
+    - name: github
+      url: https://github.com/pm7y?tab=repositories
+    - name: stackoverflow
+      url: https://stackoverflow.com/users/88289/paul
+    - name: rss
+      url: /index.xml
+
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    includeScore: 0
+    threshold: 0
+    minMatchCharLength: 2
+
+  editPost:
+    URL: https://github.com/pm7y/m7y.github.io/tree/main/content/
+    Text: Suggest Changes
+    appendFilePath: true
+
+menu:
+  main:
+    - name: 🏠
+      url: /
+      weight: 1
+    - name: Search
+      url: search/
+      weight: 10
+    - name: Tags
+      url: tags/
+      weight: 20
+    - name: Categories
+      url: categories/
+      weight: 30
+    - name: Archive
+      url: archives/
+      weight: 40
+
+pygmentsUseClasses: true
+
+markup:
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    noClasses: false
+    style: dracula
+    tabWidth: 2
+
+privacy:
+  disqus:
+    disable: false
+  googleAnalytics:
+    disable: false
+    anonymizeIP: true
+    respectDoNotTrack: true

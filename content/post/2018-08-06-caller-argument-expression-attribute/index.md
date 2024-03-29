@@ -1,20 +1,43 @@
 +++
 title = 'The CallerArgumentExpression Attribute in C# 8.0'
-description = "An exploration of how the new C# 8 CallerArgumentExpression attribute could enhance my open source 'GuardAgainst' library."
-summary = "An exploration of how the new C# 8 CallerArgumentExpression attribute could enhance my open source 'GuardAgainst' library."
-#linkTitle = ''
-keywords = ['c#']
-date = 2018-08-06T00:00:00+10:00
+summary = "Maximize the power of your C# coding with a deep dive into the new CallerArgumentExpression attribute in C# 8.0. Discover how it simplifies argument validation in your projects, enhances code readability, and boosts development efficiency. Explore the GuardAgainst library as a prime example of practical implementation, making method contracts and guard clauses more intuitive than ever. Stay ahead in Microsoft .NET development with insights into upcoming features and best practices for clean, efficient code."
+tags = [
+    "C# 8.0",
+    "CallerArgumentExpression",
+    "GuardAgainst",
+    "Software Development",
+    ".NET"
+]
+keywords = [
+    "C# 8.0 features",
+    "CallerArgumentExpression attribute",
+    "GuardAgainst library C#",
+    "C# nullable reference types",
+    "async streams in C#",
+    "extension everything C#",
+    "open source projects C#",
+    "C# method argument validation",
+    "C# programming best practices",
+    "Microsoft .NET development",
+    "C# guard clauses",
+    "C# ArgumentNullException",
+    "C# ArgumentException",
+    "writing clean code in C#",
+    "C# development tips"
+]
+categories = ['development']
+date = 2018-08-06
 draft = false
+aliases = ['/articles/2018-08/caller-argument-expression-attribute']
 +++
 
 I like C#. I can remember downloading the first beta and playing with C# for the first time and thinking it was a lot like Java, which made it instantly familiar to me. C# 8.0 is due soon. We don't know when, Microsoft hasn't officially announced a date yet. But if we go by the release dates of the previous major versions we could expect C# 8.0 to drop sometime in 2019.
 
-Microsoft now develops _all the things_ in the open and so detailed design specs for each of the proposed new features for C# 8.0 can be found on _[GitHub](https://github.com/dotnet/csharplang/tree/master/proposals)_. There are several often blogged about headline features such as: nullable reference types, async streams and _extension everything_. In this post though I want to focus on one of the more low key features, the [_**CallerArgumentExpression Attribute**_](https://github.com/dotnet/csharplang/blob/master/proposals/caller-argument-expression.md) and how it could greatly simplify one of my open source projects, _[GuardAgainst](https://github.com/pmcilreavy/GuardAgainst)_.
+Microsoft now develops _all the things_ in the open and so detailed design specs for each of the proposed new features for C# 8.0 can be found on _[GitHub](https://github.com/dotnet/csharplang/tree/master/proposals)_. There are several often blogged about headline features such as: nullable reference types, async streams and _extension everything_. In this post though I want to focus on one of the more low key features, the [_**CallerArgumentExpression Attribute**_](https://github.com/dotnet/csharplang/blob/master/proposals/caller-argument-expression.md) and how it could greatly simplify one of my open source projects, _[GuardAgainst](https://github.com/pm7y/GuardAgainst)_.
 
 ## GuardAgainst
 
-So let me tell you about a small, unambitious project I have on GitHub called _[GuardAgainst](https://github.com/pmcilreavy/GuardAgainst)_. It's a library to make writing guard clauses for your methods trivial.
+So let me tell you about a small, unambitious project I have on GitHub called _[GuardAgainst](https://github.com/pm7y/GuardAgainst)_. It's a library to make writing guard clauses for your methods trivial.
 
 ![GuardAgainst](./guardagainst.png)
 
@@ -22,13 +45,13 @@ Methods are contracts. They accept arguments, do _stuff_ with them and potential
 
 Writing these _guard clauses_, that throw if arguments are not valid, is tedious work and introduces noise and clutter to the code. The goal of _GuardAgainst_ is to make writing these guard clauses concise and expressive. Consider the following simplistic example of a method that accepts two strings and concatenates them together.
 
-```
+```csharp
 private static string GetFullname(string firstname, string surname)
 {
-if (firstname is null)
-{
-throw new ArgumentNullException(nameof(firstname), "Firstname is required.");
-}
+    if (firstname is null)
+    {
+        throw new ArgumentNullException(nameof(firstname), "Firstname is required.");
+    }
 
     if (string.IsNullOrWhiteSpace(firstname))
     {
@@ -46,7 +69,6 @@ throw new ArgumentNullException(nameof(firstname), "Firstname is required.");
     }
 
     return $"{firstname} {surname}";
-
 }
 ```
 
@@ -57,11 +79,10 @@ _GuardAgainst_ provides a bunch of methods to reduce this code into much neater 
 ```csharp
 private static string GetFullname(string firstname, string surname)
 {
-GuardAgainst.ArgumentBeingNullOrWhitespace(firstname, nameof(firstname), "Firstname is required.");
-GuardAgainst.ArgumentBeingNullOrWhitespace(surname, nameof(surname), "Surname is required.");
+    GuardAgainst.ArgumentBeingNullOrWhitespace(firstname, nameof(firstname), "Firstname is required.");
+    GuardAgainst.ArgumentBeingNullOrWhitespace(surname, nameof(surname), "Surname is required.");
 
     return $"{firstname} {surname}";
-
 }
 ```
 
@@ -74,17 +95,14 @@ Even though I've tried to keep the usage of this library as simple as possible. 
 Here is a _simplified_ example of what a typical guard method in the library looks like and how it's called.
 
 ```csharp
-public static void ArgumentBeingNull<T>(T argumentValue,
-string argumentName = default(string))
-where T : class
+public static void ArgumentBeingNull<T>(T argumentValue, string argumentName = default(string)) where T : class
 {
-if (argumentValue != null)
-{
-return;
-}
+    if (argumentValue != null)
+    {
+        return;
+    }
 
     throw new ArgumentNullException(argumentName);
-
 }
 ```
 
@@ -105,10 +123,9 @@ I've never liked this. It's a clunky necessity that adds friction to the api. Th
 One possible way I could achieve this goal right now with current C# is by making `ArgumentBeingNull` accept an `Expression<Func<T>>` and have the caller pass in an expression that evaluates to the _thing_ to be checked for null. I'd also then be able to get the string representation of that argument too. Sounds good, let's have a look.
 
 ```csharp
-public static void ArgumentBeingNull<T>(Expression<Func<T>> argumentExpression)
-where T : class
+public static void ArgumentBeingNull<T>(Expression<Func<T>> argumentExpression) where T : class
 {
-var argumentValue = argumentExpression.Compile().Invoke();
+    var argumentValue = argumentExpression.Compile().Invoke();
 
     if (argumentValue != null)
     {
@@ -121,7 +138,6 @@ var argumentValue = argumentExpression.Compile().Invoke();
     var argumentValueString = valueMatch.Success ? expressionBody.Remove(valueMatch.Value) : expressionBody;
 
     throw new ArgumentNullException(null, $"'{argumentValueString}' was null!");
-
 }
 ```
 
@@ -142,18 +158,14 @@ The new _CallerArgumentExpression_ attribute proposed for C# 8.0 would be a grea
 The compiler recognises the _CallerArgumentExpression_ attribute and uses the string passed to its constructor (i.e. `argumentValue`) to target that parameter and converts the incoming expression to a string which is assigned to the `argumentName` parameter.
 
 ```csharp
-public static void ArgumentBeingNull<T>(T argumentValue,
-[CallerArgumentExpression("argumentValue")]
-string argumentName = default(string))
-where T : class
+public static void ArgumentBeingNull<T>(T argumentValue, [CallerArgumentExpression("argumentValue")] string argumentName = default(string)) where T : class
 {
-if (argumentValue != null)
-{
-return;
-}
+    if (argumentValue != null)
+    {
+        return;
+    }
 
     throw new ArgumentNullException(argumentName);
-
 }
 ```
 

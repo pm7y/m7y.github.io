@@ -1,11 +1,29 @@
 +++
 title = 'Using an Azure function to get Octopus deployment notifications in Slack'
-description = "If you want to be notified in Slack when an Octopus deployment occurs it's not just as simple as plugging in the Slack webhook url into Octopus. You need to use an intermediary that can translate the Octopus json format into the Slack json format. This post gives a high-level overview of how an Azure function can be used to do this."
-summary = "If you want to be notified in Slack when an Octopus deployment occurs it's not just as simple as plugging in the Slack webhook url into Octopus. You need to use an intermediary that can translate the Octopus json format into the Slack json format. This post gives a high-level overview of how an Azure function can be used to do this."
-#linkTitle = ''
-keywords = ['octopus deploy', 'deployment', 'slack', 'azure', 'azure functions', 'dotnet']
-date = 2018-03-29T00:00:00+10:00
+summary = "Learn how to integrate Octopus Deploy with Slack for real-time deployment notifications using Azure Functions. This guide covers setting up Octopus subscriptions, converting Octopus events to Slack messages, and securing your webhook integration."
+tags = [
+    "Octopus Deploy",
+    "Slack Integration",
+    "Azure Functions",
+    "Deployment Automation",
+    "Webhooks"
+]
+keywords = [
+    "Octopus Deploy Slack Integration",
+    "Azure Function for Slack Notifications",
+    "Automating Production Deployments Notifications",
+    "Slack Notifications for Software Deployment",
+    "Octopus Deploy Subscriptions",
+    "Webhooks Integration with Slack",
+    "Continuous Deployment Notifications",
+    "Azure Function Webhooks",
+    "Secure Slack Notifications Deployment",
+    "Octopus Deploy Automation"
+]
+categories = ['development']
+date = 2018-03-29
 draft = false
+aliases = ['/articles/2018-03/octopus-deploy-slack-notifications']
 +++
 
 # Introduction
@@ -62,21 +80,20 @@ This is the Octopus subscription json format. Actually there was more to it than
 
 ```json
 {
-"Timestamp": "2018-03-23T01:54:08.5219596+00:00",
-"EventType": "SubscriptionPayload",
-"Payload": {
-"BatchProcessingDate": "2018-03-23T11:54:05.7407094+10:00",
-"Subscription": {
-"Name": "Notify Team of Deployments"
-}
-},
-"Event": {
-"Category": "DeploymentSucceeded",
-"Username": "pmcilreavy",
-"Occurred": "2018-03-23T00:42:01.0448185+00:00",
-"Message": "Deploy to Dev succeeded for test-proj release 1.0.0.1 to Dev"
-}
-}
+  "Timestamp": "2018-03-23T01:54:08.5219596+00:00",
+  "EventType": "SubscriptionPayload",
+  "Payload": {
+    "BatchProcessingDate": "2018-03-23T11:54:05.7407094+10:00",
+    "Subscription": {
+      "Name": "Notify Team of Deployments"
+    },
+    "Event": {
+      "Category": "DeploymentSucceeded",
+      "Username": "pm7y",
+      "Occurred": "2018-03-23T00:42:01.0448185+00:00",
+      "Message": "Deploy to Dev succeeded for test-proj release 1.0.0.1 to Dev"
+    }
+  }
 }
 ```
 
@@ -99,18 +116,15 @@ public class Subscription
 
 public class Payload
 {
-
     [JsonProperty("BatchProcessingDate")]
     public DateTime BatchProcessingDate { get; set; }
 
     [JsonProperty("Subscription")]
     public Subscription Subscription { get; set; }
-
 }
 
 public class Event
 {
-
     [JsonProperty("Category")]
     public string Category { get; set; }
 
@@ -122,12 +136,10 @@ public class Event
 
     [JsonProperty("Message")]
     public string Message { get; set; }
-
 }
 
 public class OctopusSubscriptionEvent
 {
-
     [JsonProperty("Timestamp")]
     public DateTime Timestamp { get; set; }
 
@@ -139,7 +151,6 @@ public class OctopusSubscriptionEvent
 
     [JsonProperty("Event")]
     public Event Event { get; set; }
-
 }
 ```
 
@@ -158,8 +169,8 @@ Back again to [https://jsonutils.com/](https://jsonutils.com/) to convert the Sl
 ```csharp
 public class Attachment
 {
-[JsonProperty("fallback")]
-public string Fallback { get; set; }
+    [JsonProperty("fallback")]
+    public string Fallback { get; set; }
 
     [JsonProperty("color")]
     public string Color { get; set; }
@@ -178,18 +189,15 @@ public string Fallback { get; set; }
 
     [JsonProperty("ts")]
     public int Ts { get; set; }
-
 }
 
 public class SlackPayload
 {
-
     [JsonProperty("channel")]
     public string Channel { get; set; }
 
     [JsonProperty("attachments")]
     public IList<Attachment> Attachments { get; set; }
-
 }
 ```
 
@@ -208,9 +216,9 @@ You wouldn't want just anyone being able to post a message into your Slack chann
 
 # Code
 
-I've deliberately not shown much (if any) of the actual Azure function code in this post. But I've made the code available on [GitHub](https://github.com/pmcilreavy/OctopusSubscriptionHandlerAzureFunction). It's a work in progress, so feel free to use it with the usual caution. So far I've only implemented my specific Slack message requirement although it would be pretty easy to plug in other implementations that sent a message to other systems.
+I've deliberately not shown much (if any) of the actual Azure function code in this post. But I've made the code available on [GitHub](https://github.com/pm7y/OctopusSubscriptionHandlerAzureFunction). It's a work in progress, so feel free to use it with the usual caution. So far I've only implemented my specific Slack message requirement although it would be pretty easy to plug in other implementations that sent a message to other systems.
 
-[https://github.com/pmcilreavy/OctopusSubscriptionHandlerAzureFunction](https://github.com/pmcilreavy/OctopusSubscriptionHandlerAzureFunction)
+[https://github.com/pm7y/OctopusSubscriptionHandlerAzureFunction](https://github.com/pm7y/OctopusSubscriptionHandlerAzureFunction)
 
 # Alternatives
 

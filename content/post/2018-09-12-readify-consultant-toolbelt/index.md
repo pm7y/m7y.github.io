@@ -1,11 +1,34 @@
 +++
 title = 'Readify Consultant Toolbelt'
-description = 'A curated collection of ubiquitous libraries and tools that were created by current or ex-Readify employees.'
-summary = 'A curated collection of ubiquitous libraries and tools that were created by current or ex-Readify employees.'
-#linkTitle = ''
-keywords = ['c#', 'tools']
-date = 2018-09-12T00:00:00+10:00
+summary = 'Explore a treasure trove of indispensable libraries and tools createed by and used Readify consultants. From the simplicity of Autofac for IoC containers to the comprehensive deployment solutions of Octopus Deploy, and the structured logging prowess of Serilog, this curated collection showcases the best in .NET development tools. Enhance your coding toolkit with these Readify-developed resources, designed to streamline your software development process and boost productivity.'
+tags = [
+    "Readify",
+    "Software Development",
+    ".NET Libraries",
+    "Coding Tools",
+    "Development Best Practices"
+]
+keywords = [
+    "Readify software tools",
+    "Readify libraries C#",
+    "Autofac IoC container",
+    "Conventional library for .NET",
+    "DbUp database deployment",
+    "EnumGenie TypeScript generator",
+    "GuardAgainst C# library",
+    "Humanizer .NET library",
+    "Nimbus Azure Service Bus",
+    "Octopus Deploy automation",
+    "Serilog structured logging",
+    "Seq log analysis",
+    "System.IO.Abstractions testing",
+    ".NET development tools",
+    "Software development best practices"
+]
+categories = ['software']
+date = 2018-09-12
 draft = false
+aliases = ['/articles/2018-09/readify-consultant-toolbelt']
 +++
 
 **tl;dr** _A curated collection of ubiquitous libraries and tools that were created by current or ex-Readify employees._
@@ -66,7 +89,7 @@ A simple way to generate the typescript equivalents of your C# enums. Nuff said.
 
 ## GuardAgainst
 
-[https://github.com/pmcilreavy/GuardAgainst](https://github.com/pmcilreavy/GuardAgainst)
+[https://github.com/pm7y/GuardAgainst](https://github.com/pm7y/GuardAgainst)
 
 It's a library of static guard clauses that allow you to check that an argument passes a given validity check and if it doesn't then throw an appropriate exception. For instance, you can check if a parameter is null and throw an ArgumentNullException. Or check that a comparable parameter (e.g. a date or number) is within a specified range and throw an ArgumentOutOfRangeException if it's not. There are many other variations.
 

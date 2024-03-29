@@ -1,14 +1,43 @@
 +++
 title = 'Keep your dev loop as short as possible with SQL Server Snapshots'
-description = 'How to make use of Sql Server Snapshots to keep your dev loop as short as possible.'
-summary = 'How to make use of Sql Server Snapshots to keep your dev loop as short as possible.'
-#linkTitle = ''
-keywords = ['productivity', 'sql-server', 'debugging']
-date = 2019-12-05T00:00:00+10:00
+summary = 'Discover the power of SQL Server Snapshots for managing database versions, simplifying testing, and enhancing debugging workflows in your development process. This guide explores how snapshots can mitigate the challenges of switching branches and setting up complex data scenarios, offering a faster, more reliable method for restoring databases to a known state. Learn to effortlessly navigate database changes with snapshots, keeping your local environment aligned with your development needs.'
+tags = [
+    "SQL Server",
+    "Database Snapshots",
+    "Debugging",
+    "Branch Management",
+    "Database Testing"
+]
+keywords = [
+    "SQL Server Snapshots",
+    "Database versioning for developers",
+    "Managing database changes",
+    "SQL Server development best practices",
+    "Debugging with SQL Server",
+    "SQL database branching strategy",
+    "Restoring SQL Server databases quickly",
+    "SQL Server snapshot creation",
+    "Simplifying database testing",
+    "Local development with SQL Server",
+    "SQL Server database backups",
+    "Snapshot isolation in SQL Server",
+    "Point-in-time database recovery",
+    "SQL Server management techniques",
+    "Efficient database schema changes"
+]
+categories = ['development']
+date = 2019-12-05
 draft = false
+aliases = ['/articles/2019-12/debugging-with-sql-server-snapshots']
+# [cover]
+#     image = 'ssms-snapshots.png' # image path/url
+#     #alt = "qwerqwe" # alt text
+#     #caption = "asdfasdf" # display caption under cover
+#     relative = true 
+#     hidden = true #
 +++
 
-_**tl;dr**_ Sql Server Snapshots are a useful feature to reduce the pain of breaking changes when switching branches or when debugging scenarios that require complex data setups.
+> _**tl;dr**_ SQL Server Snapshots are a useful feature to reduce the pain of breaking changes when switching branches or when debugging scenarios that require complex data setups.
 
 ## Problems
 
@@ -28,13 +57,13 @@ Ideally, you want your dev loop to be as short as possible otherwise insights an
 
 ## How can Snapshots help?
 
-A [snapshot](https://docs.microsoft.com/en-us/sql/relational-databases/databases/database-snapshots-sql-server) of a Sql Server database is a _point-in-time_ copy of a source Sql Server database.
+A [snapshot](https://docs.microsoft.com/en-us/sql/relational-databases/databases/database-snapshots-sql-server) of a SQL Server database is a _point-in-time_ copy of a source SQL Server database.
 
 ![Snapshot](./ssms-snapshots.png)
 
 A snapshot is somewhat similar to a `.bak` or `.bacpac` backup, in so much as they are all _copies_ of the database. These methods though involve exporting a copy of the source database to a file which you can later restore when needed.
 
-A snapshot is slightly different, it is also a point-in-time copy of your source database. When created it becomes an _attached_ _read-only_ copy of the source. A snapshot is shown in Sql Server Management Studio, under a menu folder called _'Database Snapshots'_ (shown above). You can access and browse these just like regular databases. They are read-only though so they can't be modified.
+A snapshot is slightly different, it is also a point-in-time copy of your source database. When created it becomes an _attached_ _read-only_ copy of the source. A snapshot is shown in SQL Server Management Studio, under a menu folder called _'Database Snapshots'_ (shown above). You can access and browse these just like regular databases. They are read-only though so they can't be modified.
 
 You might be wondering, if a snapshot is read-only, what use can it be? Well, another cool feature of a database snapshot is that you can restore _from_ them back to a regular database. And it's fast. A lot faster than restoring from a `.bak` or `.bacpac` for example.
 
@@ -109,6 +138,6 @@ That's it. Your application database (`WideWorldImporters`) has now been re-crea
 
 # Conclusion
 
-Sql Server Snapshots are useful to keep your dev loop as short as possible by allowing you to return your local database back to a known state very quickly.
+SQL Server Snapshots are useful to keep your dev loop as short as possible by allowing you to return your local database back to a known state very quickly.
 
 Thanks for reading.

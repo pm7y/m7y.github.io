@@ -1,11 +1,34 @@
 +++
 title = 'Locally Debugging an Event Grid Triggered Azure Function with Postman'
-description = 'How to use Postman to locally debug an Azure Function that has an Event Grid Trigger.'
-summary = 'How to use Postman to locally debug an Azure Function that has an Event Grid Trigger.'
-#linkTitle = ''
-keywords = ['c#', 'azure event grid', 'azure function', 'serverless']
-date = 2018-02-18T00:00:00+10:00
+summary = 'Uncover the essential guide to effortlessly debugging Azure Functions with Event Grid triggers using Postman and NGrok. This post delves into a step-by-step process for testing Azure Functions locally, facilitating a seamless development experience. Learn how to configure Postman for sending custom Event Grid messages and explore an alternative method with NGrok for direct Event Grid topic subscription testing. Perfect for developers looking to streamline their Azure Function debugging process with practical insights and tips.'
+tags = [
+    "Azure Functions",
+    "Event Grid",
+    "Debugging",
+    "Postman",
+    "NGrok"
+]
+keywords = [
+    "Debugging Azure Functions locally",
+    "Azure Event Grid triggers",
+    "Postman testing Azure Functions",
+    "Event Grid Schema Azure",
+    "Azure Functions Event Grid debugging",
+    "Event Grid topic subscription",
+    "Cloud Event Schema Azure",
+    "NGrok Azure Functions testing",
+    "Azure development tools",
+    "Event-driven architecture Azure",
+    "Azure Logic Apps integration",
+    "Reactive programming Azure",
+    "Azure services event publishing",
+    "Azure blob storage events",
+    "Local development Azure Functions"
+]
+categories = ['development']
+date = 2018-02-18
 draft = false
+aliases = ['/articles/2018-02/debug-eventgrid-triggered-azure-function', '/articles/2018-12/debug-eventgrid-triggered-azure-function']
 +++
 
 **tl;dr** _Just like you'd expect but the trick is to add this header (which took me a long time to track down in the docs): `aeg-event-type` = `Notification`_

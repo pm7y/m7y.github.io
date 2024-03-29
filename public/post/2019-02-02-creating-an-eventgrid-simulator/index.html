@@ -1,0 +1,402 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="en-au"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Creating an Azure Event Grid Simulator - Blogilreavy</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="Some notes creating an Azure Event Grid Simulator in order to make local integration testing a whole lot easier." />
+  <meta name="author" content="Blogilreavy" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.124.1">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="http://localhost:1313/"
+      >Blogilreavy</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Creating an Azure Event Grid Simulator</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Feb 5, 2019</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p><em><strong>tl;dr</strong></em> Some notes creating an Azure Event Grid Simulator in order to make local integration testing a whole lot easier. It&rsquo;s on GitHub @ <a href="https://github.com/pmcilreavy/AzureEventGridSimulator">https://github.com/pmcilreavy/AzureEventGridSimulator</a></p>
+<h2 id="what-is-azure-event-grid">What is Azure Event Grid?</h2>
+<p>Azure Event Grid is a simple pub-sub mechanism that is deeply baked into many Azure services. It facilitates reactive programming allowing Azure services (and your own app) to publish and subscribe to events and execute code when they are received. Within Event Grid you create one or more &rsquo;topics&rsquo;. A topic provides an https endpoint to which events are published and subscribers subscribe to. Events are simple json messages that represent something that has happened in the past. For instace, you might publish an event when a new user has signed up to your awesome website.</p>
+<p>In a typical pub-sub model the subscriber polls for new events and &lsquo;pulls&rsquo; the ones it&rsquo;s interested in. The Azure Event Grid model is push/ push. So when a new event is published, the Event Grid topic &lsquo;pushes&rsquo; the event to all of its subscribers.</p>
+<p>There are several types of supported subscribers, the most common being a webhook. It&rsquo;s common to use an Azure Function as a subscriber to a topic.</p>
+<p><img src="./eventgrid_to_function.png" alt="Event Grid"></p>
+<h2 id="why-a-simulator">Why a simulator?</h2>
+<p>I recently used Azure Event Grid to facilite communication between disparate applications. One application would be publishing events and another would need to consume them from a database.</p>
+<p>At a high level the publishing application would send events to an Event Grid topic. The topic has an Azure function subscriber which processes the message and inserts the details into an SQL database which the second application can then consume.</p>
+<p>Azure functions can be tested and run locally (as can several other Azure services: Cosmos Db, Storage) and obviously SQL server can run locally but there is no way to run Azure Event Grid locally. What I wanted to be able to do was run the entire solution <em>offline</em>. In other words, publish an event to a local Event Grid topic and have that push the event to my locally running Azure function subscriber which in turn would insert that into my locally running SQL server.</p>
+<h2 id="existing-options">Existing Options</h2>
+<p>I looked into a couple of existing open source projects such as <a href="https://github.com/Azure/eventgrid-emulator">github.com/Azure/eventgrid-emulator</a> and <a href="https://github.com/ravinsp/eventgrid-emulator">github.com/ravinsp/eventgrid-emulator</a> but I quickly ruled them out for a few reasons:</p>
+<h3 id="githubcomazureeventgrid-emulatorhttpsgithubcomazureeventgrid-emulator"><a href="https://github.com/Azure/eventgrid-emulator">github.com/Azure/eventgrid-emulator</a></h3>
+<p>This one seems to be in Microsoft&rsquo;s Azure repo so I initially had high hopes that this was the <em>official</em> solution. It&rsquo;s written in <em>Go</em> which I only have limited knowledge of. I made stab at trying to compile it but pretty quickly gave up. There&rsquo;s no documenation and seemed like it wasn&rsquo;t actively being developed.</p>
+<h3 id="githubcomravinspeventgrid-emulatorhttpsgithubcomravinspeventgrid-emulator"><a href="https://github.com/ravinsp/eventgrid-emulator">github.com/ravinsp/eventgrid-emulator</a></h3>
+<p>I&rsquo;m a bit fuzzy on the distinction between <em>simulate</em> and <em>emulate</em>. But in my mind to <em>emulate</em> something is <strong>stronger</strong> that <em>simulate</em>. A simulation is a best approximation. A Nintendo <em>emulator</em> would need to exactly replicate the hardware platform if it had any hope of running the orginal game code. So when I found this Event Grid <strong>Emulator</strong> project it seemed like what I was looking for. It does work well for simpleer use cases, like if you only intend to test over <em>http</em> and not <em>https</em> and you are using your own custom code to post your events to a topic. However, Azure Event Grid only supports connections over https and the &lsquo;official&rsquo; Azure Event Grid client is in a nuget package called <code>Microsoft.EventGrid.Client</code> and it only sends events over https. So an <em>emulator</em> that doesn&rsquo;t support <em>https</em> didn&rsquo;t seem like the right choice.</p>
+<p>So I decided it would be a fun project to create my own.</p>
+<h2 id="goals-for-v1">Goals for v1</h2>
+<h3 id="topics">Topics</h3>
+<p>My <em>simulator</em> would need to support the creation of multiple topics and each topic would need to support multiple subscribers. The topic endpoint should follow that of a <em>real</em> one. i.e. support https and be in the form <em><a href="https://topic-name.localhost">https://topic-name.localhost</a>:port/api/events.</em></p>
+<h3 id="subscribers">Subscribers</h3>
+<p>In my case I only needed to support one type of subscriber: an Azure function (i.e. webhook). Initially, this is all the simulator will support.</p>
+<p>A topic can have 0 to <em>n</em> subscribers. When a request is received for a topic, the events will be forwarded to each of the subscribers with the addition of an <code>aeg-event-type: Notification</code> header. If the message contains multiple events, they will be sent to each subscriber one at a time inline with the Azure Event Grid behaviour. <em>&ldquo;Event Grid sends the events to subscribers in an array that has a single event. This behavior may change in the future.&rdquo;</em></p>
+<h3 id="https">Https</h3>
+<p>As we&rsquo;ve already discussed, Azure Event Grid only supports https connections and so I decided that if I was going to create a simultor, that it should support https and therefore be compatible with the https-only <code>Microsoft.EventGrid.Client</code> nuget package. The simulator uses the dotnet development certificate to secure each topic port. You can ensure that this certifcate is installed by running the following command.</p>
+<p><code>dotnet dev-certs https</code></p>
+<h3 id="keys">Keys</h3>
+<p>A topic is secured by a &lsquo;key&rsquo;. In order to publish an event to Event Grid you need to pass the key in the http headers of the request. There are two forms in which you can pass the key:</p>
+<ol>
+<li>
+<p><strong>aeg-sas-key</strong>: This is the simplest form and is just the key itself. So if they KEY is <code>MyAwesomeKey=</code> then you would pass <code>aeg-sas-key: MyAwesomeKey=</code> as the header value. This is great when you are testing, in Postman perhaps, and need a simple method to access the topic. The disadvantage though is that the key is passed over the wire in clear text. It will be over https but this might not be enough security for some apps.</p>
+</li>
+<li>
+<p><strong>aeg-sas-header</strong>: This is the Microsoft recommended way and involves combing the key with some other information such an expiry date and hashing it into a signature. This means we can set a time limit on the hashed key we send so that even if they message was compromised in transit an attacker would only have a limited time to exploit it and the key itself is not passed as clear text.</p>
+</li>
+</ol>
+<p>I wanted to ensure that my simulator was able to support both of these forms of key and could validate them when a new event as received. More information on <code>sas token</code> can be found here <a href="https://docs.microsoft.com/en-us/azure/event-grid/security-authentication#sas-tokens">https://docs.microsoft.com/en-us/azure/event-grid/security-authentication#sas-tokens</a>.</p>
+<p>If the incoming request contains either an <code>aeg-sas-token</code> or an <code>aeg-sas-key</code> header <em>and</em> there is a <code>Key</code> configured for the topic then the simulator will validate the key and reject the request if the value in the header is not valid. If you want to skip the validation then set the <code>Key</code> to <em>null</em> in <code>appsettings.json</code>.</p>
+<h3 id="size-validation">Size Validation</h3>
+<p>Azure Event Grid imposes certain size limits to the overall message body and to the each individual event. The overall message body must be &lt;= 1Mb and each individual event must be &lt;= 64Kb. <em>These are the advertised size limits. My testing has shown that the actual limits are 1.5Mb and 65Kb.</em></p>
+<h3 id="message-validation">Message Validation</h3>
+<p>Ensures that the properties of each event meets the minimum requirements.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Id</td>
+<td>Must be a string. Not null or whitespace.</td>
+</tr>
+<tr>
+<td>Subject</td>
+<td>Must be a string. Not null or whitespace.</td>
+</tr>
+<tr>
+<td>EventType</td>
+<td>Must be a string. Not null or whitespace.</td>
+</tr>
+<tr>
+<td>EventTime</td>
+<td>Must be a valid date/time.</td>
+</tr>
+<tr>
+<td>MetadataVersion</td>
+<td>Must be null or <code>1</code>.</td>
+</tr>
+<tr>
+<td>Topic</td>
+<td>Leave null or empty. Event Grid will populate this field.</td>
+</tr>
+<tr>
+<td>DataVersion</td>
+<td><em>Optional</em>. e.g. <code>1</code>.</td>
+</tr>
+<tr>
+<td>Data</td>
+<td><em>Optional</em>. Any custom object.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="approach">Approach</h2>
+<p>My initial iteration of the code started a new <code>TcpListener</code> on a distinct port for each topic. Although this worked well it involved a lot of boiler plate code. In order to support https. It also required that an <code>netsh</code> command be run from an elevated command prompt to map the certificate to each port the app needed to listen on prior to running the app. I felt this was a step to far and would make it less usable. I wanted something that <em>just worked ™</em>.</p>
+<p>I decided to refactor to use asp.net core and kestrel to host the https endpoints and make use of the development certificates that most developers will already have installed on their machines.</p>
+<h3 id="configuration">Configuration</h3>
+<p>The configuration of the simulator is done via <em>appsettings.json</em>. An example with one topics that has one subscriber is shown below&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;topics&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;MyAwesomeTopic&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;httpsPort&#34;</span>: <span style="color:#ae81ff">60101</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;TheLocal+DevelopmentKey=&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;subscribers&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;LocalAzureFunctionSubscription&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;endpoint&#34;</span>: <span style="color:#e6db74">&#34;http://localhost:7071/runtime/webhooks/EventGrid?functionName=PersistEventToDb&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="usage">Usage</h3>
+<p>Once configured and running, requests are <code>posted</code> to a topic endpoint. The endpoint of a topic will be in the form: <code>https://localhost:&lt;configured-port&gt;/api/events?api-version=2018-01-01</code>.</p>
+<h4 id="curl-example">cURL Example</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -H <span style="color:#e6db74">&#34;aeg-sas-key: TheLocal+DevelopmentKey=&#34;</span> -X POST <span style="color:#e6db74">&#34;https://localhost:60101/api/events?api-version=2018-01-01&#34;</span> -d @Data.json
+</span></span></code></pre></div><p><em>Data.json</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;8727823&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;subject&#34;</span>: <span style="color:#e6db74">&#34;/example/subject&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;data&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;MyProperty&#34;</span>: <span style="color:#e6db74">&#34;This is my awesome data!&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;eventType&#34;</span>: <span style="color:#e6db74">&#34;Example.DataType&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;eventTime&#34;</span>: <span style="color:#e6db74">&#34;2019-01-01T00:00:00.000Z&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;dataVersion&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h2 id="feature-development">Feature Development</h2>
+<p>I&rsquo;m pretty happy with v1 so far. It&rsquo;s on GitHub @ <a href="https://github.com/pmcilreavy/AzureEventGridSimulator">https://github.com/pmcilreavy/AzureEventGridSimulator</a>. I&rsquo;ve identified a few more features I&rsquo;d like to add to fill in some of the holes in functionality. Mainly around filtering and retries.</p>
+<p>Thanks for reading.</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/post/2019-12-05-debugging-with-sql-server-snapshots/"
+      ><span class="mr-1.5">←</span><span>Keep your dev loop as short as possible with SQL Server Snapshots</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/post/2018-09-12-readify-consultant-toolbelt/"
+      ><span>Readify Consultant Toolbelt</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+  <div class="mt-24" id="disqus_thread"></div>
+  <script>
+    const disqusShortname = 'blogilreavy';
+    const script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="http://localhost:1313/">Blogilreavy</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

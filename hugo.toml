@@ -1,0 +1,47 @@
+baseURL = 'https://m7y.me/'
+languageCode = 'en-au'
+title = 'Blogilreavy'
+theme = "paper"
+
+disqusShortname = 'blogilreavy'   # use disqus comments
+
+
+[services]
+  [services.googleAnalytics]
+    ID = 'G-XXXXXXXXX'
+    
+[params]
+  subtitle = 'On dotnet and the other things.'
+
+  [params.contact]
+    email = 'info@example.org'
+    phone = '+1 202-555-1212'
+
+  # color style
+  color = 'light'                           # linen, wheat, gray, light
+
+  # header social icons
+  github = 'pmcilreavy'                 # github.com/YOUR_GITHUB_ID
+  rss = true                                # show rss icon
+
+  # home page profile
+  #name = 'Blogilreavy'
+  #bio = 'On dotnet and the other things.'
+
+
+  # # misc
+  # disableHLJS = true                        # disable highlight.js
+  # disablePostNavigation = true              # disable post navigation
+  monoDarkIcon = true                       # show monochrome dark mode icon
+  # math = true                               # enable KaTeX math typesetting globally
+  # graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
+
+  # giscus
+# [params.giscus]
+#   repo = 'YOUR_GISCUS_REPO'                 # see https://giscus.app for more details
+#   repoId = 'YOUR_GISCUS_REPO_ID'
+#   category = 'YOUR__GISCUS_CATEGORY'
+#   categoryId = 'YOUR_GISCUS_CATEGORY_ID'
+#   mapping = 'pathname'
+#   theme = 'light'
+#   lang = 'zh-CN'

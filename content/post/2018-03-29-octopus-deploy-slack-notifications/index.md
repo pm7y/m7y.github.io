@@ -32,29 +32,29 @@ Ideally deploying code into production should be trivial. By the time a release 
 
 I recently had a need to alert the team when a production deployment, of the many projects we care about, occurred. Slack is our messaging platform of choice so we wanted Octopus to drop a notification into our Slack channel when a new production deployment started, completed or failed.
 
-![Octopus](./octopus.png)
+![Octopus](./octopus.jpg)
 
 ## Octopus Subscriptions
 
 Out of the box, Octopus has [subscriptions](https://octopus.com/docs/administration/subscriptions). A subscription allows you to define the scope of the alerts by picking which projects and events you wish to be alerted about. A subscription allows you to respond to these events in two ways: email or webhook.
 
-![Octopus Subscription Config Screen](./subscriptions-screen-example.png)
+![Octopus Subscription Config Screen](./subscriptions-screen-example.jpg)
 
 ## _Email_
 
 Pretty straight forward. When an event occurs that's within your defined scope the nominated team members will receive an email containing the details of the events.
 
-![Email configuration](./email-config.png)
+![Email configuration](./email-config.jpg)
 
 An example of the received email.
 
-![Example Octopus Subscription Email](./octopus_email_subscription_example.png)
+![Example Octopus Subscription Email](./octopus_email_subscription_example.jpg)
 
 ## _Webhook_
 
 Email is useful but a Slack notification was what I was after so the webhook option sounded ideal. Slack supports webhook integrations out of the box, unfortunately though the json format of the Octopus subscription is not directly compatible with Slack so we need an intermediary that can accept the Octopus json, transform it and pass it off to the Slack webhook url.
 
-![Webhook configuration](./webhook-config.png)
+![Webhook configuration](./webhook-config.jpg)
 
 ### Zapier
 
@@ -101,7 +101,7 @@ This is the Octopus subscription json format. Actually there was more to it than
 
 I was able to use [https://jsonutils.com/](https://jsonutils.com/) to convert the Octopus json into C# classes.
 
-![JsonUtils Settings](./jsonutils_config.png)
+![JsonUtils Settings](./jsonutils_config.jpg)
 
 This gave me some nice C# classes ready to go, already annotated with with Newtonsoft JsonProperty attributes.
 
@@ -160,7 +160,7 @@ So far so good. I was able to grab the incoming json string from the request and
 
 Slack has a handy api tool called the [message builder](https://api.slack.com/docs/messages/builder) that allows you to experiment with the json and see how your message will look when it's delivered to a channel. Here is roughly what I ended up with.
 
-![Slack Message Builder](./slack_message_builder.png)
+![Slack Message Builder](./slack_message_builder.jpg)
 
 ### Converting to C# objects
 
@@ -208,7 +208,7 @@ Sweet, so I'm able to build a Slack message from the Octopus object and all I ne
 No need to explain this in great detail, but generally you can just go to [https://yourteamname.slack.com/apps/manage/custom-integrations](https://yourteamname.slack.com/apps/manage/custom-integrations) and from there you can create a new webhook integration. Out of this you'll get a unique webhook url that will accept the message json and create the notification in the specified channel.
 
 Here is what my Slack notification ended up looking like...
-![Slack Channel Notification](./notification_screenshot.png)
+![Slack Channel Notification](./notification_screenshot.jpg)
 
 ## Security
 

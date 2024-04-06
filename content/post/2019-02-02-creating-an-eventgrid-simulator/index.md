@@ -41,7 +41,7 @@ In a typical pub-sub model the subscriber polls for new events and 'pulls' the o
 
 There are several types of supported subscribers, the most common being a webhook. It's common to use an Azure Function as a subscriber to a topic.
 
-![Event Grid](./eventgrid_to_function.png)
+![Event Grid](./eventgrid_to_function.jpg)
 
 ## Why a simulator?
 

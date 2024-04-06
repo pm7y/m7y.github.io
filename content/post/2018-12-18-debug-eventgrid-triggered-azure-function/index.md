@@ -90,24 +90,24 @@ Firstly, grab the url of the function you are trying to test. It usually takes t
 
 We can plug this in to a new postman message, as shown in the screen-shot below. Be sure and specify POST as the verb. Also, paste in the event you wish to send in the body tab (under raw).
 
-![Message body](./postman_screenshot_1.png)
+![Message body](./postman_screenshot_1.jpg)
 
 Then we need to switch to the Headers tab and add 3 headers:
 
 - `Content-Type` = `application/json`
 - `aeg-event-type` = `Notification`
 
-![Message headers](./postman_screenshot_2.png)
+![Message headers](./postman_screenshot_2.jpg)
 
 That is it! Now set a breakpoint on your Azure Function solution and hit F5. Then send the Postman message and your breakpoint should be hit. When the Azure function completes it should return a 202 (Accepted) response back to Postman.
 
 Depending on what you're testing, it's likely that you'll want to supply a new value for `id` and `eventTime` each time you send the message. It gets a bit tedious doing this by hand each time so you can utilise postman's _pre-request script_ feature to set a couple of variables that we can substitute in the body of the message.
 
-![Pre-request script](./postman_screenshot_3.png)
+![Pre-request script](./postman_screenshot_3.jpg)
 
 The `id` and `eventTime` can be substituted as follows.
 
-![Variable substitution](./postman_screenshot_4.png)
+![Variable substitution](./postman_screenshot_4.jpg)
 
 ## An Alternative Method Using NGrok
 

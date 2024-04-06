@@ -30,7 +30,7 @@ date = 2021-01-03
 draft = false
 aliases = ['/articles/2021-01/sql-server-high-dpi-settings']
 # [cover]
-#     image = 'before.png' # image path/url
+#     image = 'before.jpg' # image path/url
 #     #alt = "qwerqwe" # alt text
 #     #caption = "asdfasdf" # display caption under cover
 #     relative = true # when using page bundles set this to true
@@ -43,11 +43,11 @@ aliases = ['/articles/2021-01/sql-server-high-dpi-settings']
 
 I have a 4k monitor scaled at 150%. These are my preferred display settings.
 
-![Scale and Layout Settings](./scale_and_layout.png)
+![Scale and Layout Settings](./scale_and_layout.jpg)
 
 When I run SSMS though I see all kinds of weirdly scaled menus, fonts and dialogs. As you can see below, the buttons are running off the edge of the dialog box.
 
-![Before: Buttons disappearing off the dialog](./before.png)
+![Before: Buttons disappearing off the dialog](./before.jpg)
 
 For the record, I'm using Windows 10 (20H2) and SSMS v18.8.
 
@@ -108,18 +108,18 @@ I've tried many of them and some work and some don't. Every few months/years whe
 4. Now run `regedit` (you will also need admin privelages for this) and locate the `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\SideBySide` section.
 5. Add/Edit the DWORD(32-bit) value called `PreferExternalManifest` to have a value of `1` (as shown below). This instructs Windows to look for the `manifest` file that we added in step (2).
 
-![Regedit - PreferExternalManifest](./regedit.png)
+![Regedit - PreferExternalManifest](./regedit.jpg)
 
 1. Now locate `Ssms.exe` again and right-click and select `Properties -> Compatibility -> Change settings for all users`.
 2. Check `Disable full-screen optimisation` then click `Change high DPI settings`.
 3. Ensure that `Progam DPI` and `High DPI scaling override` checkboxes are un-checked.
 
-![The fix in (almost) one picture](./the_fix.png)
+![The fix in (almost) one picture](./the_fix.jpg)
 
 ### Done!
 
 When you next launch SSMS the disappearing buttons and other weird scaling issues should now be fixed.
 
-![After: all is well](./after.png)
+![After: all is well](./after.jpg)
 
 Thanks for reading.

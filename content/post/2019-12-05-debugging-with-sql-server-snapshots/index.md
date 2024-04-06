@@ -30,7 +30,7 @@ date = 2019-12-05
 draft = false
 aliases = ['/articles/2019-12/debugging-with-sql-server-snapshots']
 # [cover]
-#     image = 'ssms-snapshots.png' # image path/url
+#     image = 'ssms-snapshots.jpg' # image path/url
 #     #alt = "qwerqwe" # alt text
 #     #caption = "asdfasdf" # display caption under cover
 #     relative = true 
@@ -59,7 +59,7 @@ Ideally, you want your dev loop to be as short as possible otherwise insights an
 
 A [snapshot](https://docs.microsoft.com/en-us/sql/relational-databases/databases/database-snapshots-sql-server) of a SQL Server database is a _point-in-time_ copy of a source SQL Server database.
 
-![Snapshot](./ssms-snapshots.png)
+![Snapshot](./ssms-snapshots.jpg)
 
 A snapshot is somewhat similar to a `.bak` or `.bacpac` backup, in so much as they are all _copies_ of the database. These methods though involve exporting a copy of the source database to a file which you can later restore when needed.
 
@@ -113,7 +113,7 @@ To find the names of your data files you can run the following `SELECT` statemen
 SELECT [name] FROM [sys].[master_files] WHERE [database_id] = DB_ID('WideWorldImporters') AND [type] = 0;
 ```
 
-![Data File Names](./data-file-names.png)
+![Data File Names](./data-file-names.jpg)
 
 ## Restoring from a Snapshot
 

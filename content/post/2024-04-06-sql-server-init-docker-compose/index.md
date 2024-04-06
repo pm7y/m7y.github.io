@@ -1,11 +1,12 @@
 +++
-title = 'Using Podman with Docker Engine'
-summary = 'Using Podman with Docker Engine.'
-tags = ['docker', 'podman']
+title = 'Initialising SQL Server with Docker Compose'
+summary = 'How to initialise SQL server via Docker Compose.'
+tags = ['docker', 'sql server']
 categories = ['development']
-keywords = ['docker', 'podman']
-date = 2024-05-01
+keywords = ['docker', 'sql server']
+date = 2024-04-06
 draft = true
+series = ['SQL Server with Docker Compose']
 # [cover]
 #     image = 'before.png' # image path/url
 #     #alt = "qwerqwe" # alt text
@@ -14,4 +15,4 @@ draft = true
 #     hidden = false # only hide on current single page
 +++
 
-# TODO
+# Coming soon

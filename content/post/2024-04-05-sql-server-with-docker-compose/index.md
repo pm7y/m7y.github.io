@@ -28,6 +28,7 @@ keywords = [
 ]
 date = 2024-04-05
 draft = false
+series = ['SQL Server with Docker Compose']
 [cover]
     image = 'cover_image.png'
     alt = "Microsoft SQL Server with Docker Compose"

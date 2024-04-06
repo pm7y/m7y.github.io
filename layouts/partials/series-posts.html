@@ -1,0 +1,18 @@
+{{/* From: https://npf.io/2014/08/making-it-a-series/ */}}
+{{- if .Params.series }}
+    {{- $name := index .Params.series 0 }}
+    {{- $nameLower := lower (replace $name "-" " ")}}
+    {{- $series := index .Site.Taxonomies.series $nameLower }}
+    {{- if gt (len $series.Pages) 1 }}
+
+      <div class="toc" style="padding-left: 25px; padding-top: 25px">
+      <p>This article is part of the <em>'{{$name}}'</em> series:</p>
+
+      <ol reversed class="series">
+      {{- range $series.Pages }}
+        <li><a href="{{.Permalink}}">{{.LinkTitle}}</a></li>
+      {{- end }}
+      </ol>
+      </div>
+    {{- end }}
+{{- end }}

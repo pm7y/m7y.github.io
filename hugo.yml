@@ -25,7 +25,12 @@ outputs:
     - HTML
     - RSS
     - JSON
-    -
+
+taxonomies:
+  category: categories
+  series: series
+  tag: tags
+
 params:
   env: production
   description: On dotnet and the other things.
@@ -44,7 +49,7 @@ params:
   showPostNavLinks: true
   showWordCount: true
   showToc: true
-  tocOpen: true
+  tocOpen: false
   hidemeta: false
   hideSummary: false
   showRssButtonInSectionTermList: true

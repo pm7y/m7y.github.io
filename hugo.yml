@@ -68,7 +68,7 @@ params:
   label:
     text: "m7y.me"
     icon: /apple-touch-icon.png
-    iconHeight: 35
+    # iconHeight: 35
 
   homeInfoParams:
     Title: Hi there 👋

@@ -2,7 +2,7 @@
 title = 'The CallerArgumentExpression Attribute in C# 8.0'
 summary = "Maximize the power of your C# coding with a deep dive into the new CallerArgumentExpression attribute in C# 8.0. Discover how it simplifies argument validation in your projects, enhances code readability, and boosts development efficiency. Explore the GuardAgainst library as a prime example of practical implementation, making method contracts and guard clauses more intuitive than ever. Stay ahead in Microsoft .NET development with insights into upcoming features and best practices for clean, efficient code."
 tags = [
-    "C# 8.0",
+    "CSharp",
     "CallerArgumentExpression",
     "GuardAgainst",
     "Software Development",

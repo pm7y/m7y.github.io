@@ -10,7 +10,7 @@ disqusShortname: blogilreavy
 googleAnalytics: G-VD4HKY6506
 enableInlineShortcodes: true
 copyright: |
-  [Privacy](/privacy) | © 2024 m7y.me |
+  [Privacy](/privacy/) | © 2024 m7y.me |
 
 services:
   disqus:
@@ -33,6 +33,7 @@ taxonomies:
 
 params:
   env: production
+  robotsNoIndex: false
   description: On dotnet and the other things.
   keywords:
     - dotnet
@@ -67,8 +68,8 @@ params:
 
   label:
     text: "m7y.me"
-    icon: /apple-touch-icon.png
-    # iconHeight: 35
+    icon: /apple-touch-icon.webp
+    iconHeight: 35
 
   homeInfoParams:
     Title: Hi there 👋

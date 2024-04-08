@@ -51,7 +51,7 @@ Some examples of initialisation might be:
   - via a dacpac/bacpac file
   - via a bak file
 
- You can do these things manually via an IDE such as Azure Data Studio, but manual steps could become tedious if this container is one you'll be tearing down and re-creating frequently. Also, you might want to automate it so that other users of the container fall into the pit of success and provide everyone with a consisent setup.
+You can do these things manually via an IDE such as Azure Data Studio, but manual steps could become tedious if this container is one you'll be tearing down and re-creating frequently. Also, you might want to automate it so that other users of the container fall into the pit of success and provide everyone with a consisent setup.
 
 So, let's look at three different ways of how we can initialise SQL server using Docker Compose.
 
@@ -117,7 +117,7 @@ First we start SQL server by calling `/opt/mssql/bin/sqlservr`. This is a blocki
 
 We use an `until/do` loop to check if SQL server has started yet by executing a simple SQL query `SELECT 1` using `sqlcmd`, and we send the output to `/dev/null` since we aren't interested in seeing the output. If the script fails then we `do` an `echo` statement to indicate that the script will `sleep` for `5` seconds. The loop continues this until the SQL server becomes available then we exit the loop.
 
-Now we make call to `sqlcmd` to execute another SQL script, this time from a file `mssql-init.sql` which we have made available via the `volumes` section. You can put whatever SQL statements you need for your scenario into this file.
+Now we make a call to `sqlcmd` to execute another SQL script, this time from a file `mssql-init.sql` which we have made available via the `volumes` section. You can put whatever SQL statements you need for your scenario into this file.
 
 Finally, we call `sleep infinity` to prevent the command script from exiting (which would stop the container).
 
@@ -125,7 +125,7 @@ Finally, we call `sleep infinity` to prevent the command script from exiting (wh
 
 ## Try it
 
-Copy the above into a new file called `docker-compose-mssql-init-cmd.yml` and execute it using the command below. Note that we chain the file together with the base compose file. This superimposes the new `command` section above ontop of the base section.
+Copy the above into a new file called `docker-compose-mssql-init-cmd.yml` and execute it using the command below. Note that we chain the file together with the base compose file. This superimposes the new `command` section ontop of the base section.
 
 **Create the container**
 
@@ -134,9 +134,10 @@ docker-compose -f docker-compose-mssql.yml -f docker-compose-mssql-init-cmd.yml 
 ```
 
 ## Review
+
 While not inherently bad practice, modifying the `command` of an image in this way is typically not an ideal thing to do for a few reasons:
 
-- **Loss of Default Functionality**: right now all the `CMD` in the base image does is call `/opt/mssql/bin/sqlservr`. We can see this in the [Dockerfile in the GitHub repo](https://github.com/microsoft/mssql-docker/blob/master/linux/mssql-server-linux/Dockerfile). But what if this changes in the future and Microsoft adds more logic other than simply starting the server. By modifying the `command` we are opting out of whatever logic is in the base image `CMD`.
+- **Loss of Default Functionality**: right now, in Microsoft's image, all `CMD` does is call `/opt/mssql/bin/sqlservr`. We can see this in the [Dockerfile in the GitHub repo](https://github.com/microsoft/mssql-docker/blob/master/linux/mssql-server-linux/Dockerfile). But what if this changes in the future and Microsoft adds more logic other than simply starting the server. By modifying the `command` we are opting out of whatever logic is in the base image `CMD`.
 - **Complexity and Maintenance Overhead**: Overriding commands directly can lead to configurations that are harder to understand, especially for new developers joining a project. Official images (i.e. from Microsoft) come with documentation that explains how the container is intended to be used, including the default command and its purpose. Overriding this command without adequate documentation in your project can lead to confusion.
 - **Deviation from Image Specifications**: Immutability, in the context of containers, is a principle that emphasises the unchangeability of containers once they have been created. Overriding the command in a Docker Compose file can be seen as a deviation from these immutable characteristics.
 
@@ -156,7 +157,7 @@ services:
       - ./mssql-init.sql:/tmp/mssql-init.sql
 ```
 
-So here we are defining a completely new container called `mssql-tools` which uses the [`mssql-tools` image](https://hub.docker.com/_/microsoft-mssql-tools). It `depends_on` our `mssql` container which means this container won't start until the `mssql` container has started. We use a simple `command` to  invoke `sqlcmd` to run our initialisation script which, we have mounted via the `volumes` section. Once the script has been executed the container will stop running.
+So here we are defining a completely new container called `mssql-tools` which uses the [`mssql-tools` image](https://hub.docker.com/_/microsoft-mssql-tools). It `depends_on` our `mssql` container which means this container won't start until the `mssql` container has started. We use a simple `command` to invoke `sqlcmd` to run our initialisation script which, we have mounted via the `volumes` section. Once the script has been executed the container will stop running.
 
 ## Try it
 
@@ -169,6 +170,7 @@ docker-compose -f docker-compose-mssql.yml -f docker-compose-mssql-init-tools.ym
 ```
 
 > Note: Remove created containers from the previous step with: \
+
     `docker-compose -f docker-compose-mssql.yml -f docker-compose-mssql-init-cmd.yml down`
 
 ## Review
@@ -222,8 +224,9 @@ Copy the content above into a new file called `docker-compose-mssql-init-bacpac.
 ```bash
 docker-compose -f docker-compose-mssql.yml -f docker-compose-mssql-init-bacpac.yml up -d
 ```
+
 > Note: Remove created containers from the previous step with: \
-  `docker-compose -f docker-compose-mssql.yml -f docker-compose-mssql-init-tools.yml down`
+>  `docker-compose -f docker-compose-mssql.yml -f docker-compose-mssql-init-tools.yml down`
 
 **Output shown in Docker Desktop**
 

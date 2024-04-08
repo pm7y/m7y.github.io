@@ -1,6 +1,6 @@
 +++
-title = 'Using the Semantic Kernel to extract useful IP from code'
-summary = 'Using the Semantic Kernel to extract useful IP from code.'
+title = 'Configuring SEQ'
+summary = 'Configuring SEQ.'
 tags = ['docker', 'podman']
 categories = ['development']
 keywords = ['docker', 'podman']

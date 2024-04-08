@@ -28,7 +28,7 @@ keywords = [
 categories = ['software']
 date = 2021-01-03
 draft = false
-aliases = ['/articles/2021-01/sql-server-high-dpi-settings']
+aliases = ['/articles/2021-01/sql-server-high-dpi-settings', '/articles/2021-02/sql-server-high-dpi-settings']
 [cover]
     image = 'cover_image.webp'
     alt = "SQL Server High Dpi Settings"

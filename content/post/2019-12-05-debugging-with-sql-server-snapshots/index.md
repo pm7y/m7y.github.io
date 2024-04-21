@@ -20,7 +20,6 @@ keywords = [
     "Simplifying database testing",
     "Local development with SQL Server",
     "SQL Server database backups",
-    "Snapshot isolation in SQL Server",
     "Point-in-time database recovery",
     "SQL Server management techniques",
     "Efficient database schema changes"

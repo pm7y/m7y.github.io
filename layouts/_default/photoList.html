@@ -1,0 +1,18 @@
+{{- define "main" }}
+
+<div>
+  <section class="gallery">
+    {{- $context := . -}} {{- range $src := $context.Page.Resources.Match
+    "**.jpg" -}} {{- $exifJson := $context.Page.Resources.GetMatch (printf
+    "%s.json" .Name) -}} {{- $exif := (index ($exifJson.Content | unmarshal) 0)
+    -}} {{/*
+    <span>{{$exif.Make}}</span> */}}
+    <div class="photo">
+      <img src="{{ $src }}" alt="?." loading="lazy" />
+    </div>
+
+    {{- end -}}
+  </section>
+</div>
+
+{{- end }}{{/* end main */}}

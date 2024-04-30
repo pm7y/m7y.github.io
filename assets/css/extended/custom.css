@@ -347,3 +347,22 @@
 /* TextWhitespace */
 .chroma .w {
 }
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.photo {
+  flex: 1 1 auto;
+  height: 150px;
+  /* max-width: 300px; */
+}
+
+.photo img {
+  object-fit: cover;
+  /* aspect-ratio: 6/5; */
+  height: 100%;
+  width: 100%;
+}

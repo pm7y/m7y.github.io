@@ -1,18 +1,50 @@
 {{- define "main" }}
 
-<div>
-  <section class="gallery">
-    {{- $context := . -}} {{- range $src := $context.Page.Resources.Match
-    "**.jpg" -}} {{- $exifJson := $context.Page.Resources.GetMatch (printf
-    "%s.json" .Name) -}} {{- $exif := (index ($exifJson.Content | unmarshal) 0)
-    -}} {{/*
-    <span>{{$exif.Make}}</span> */}}
-    <div class="photo">
-      <img src="{{ $src }}" alt="?." loading="lazy" />
-    </div>
-
-    {{- end -}}
-  </section>
+{{- if .Content }}
+<div class="post-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
 </div>
+{{- end }}
+
+
+{{ $photos := slice }}
+{{- range .Resources.Match "**.jpg" -}}
+  {{- $jsonFilename := printf "%s.jpg.json" (strings.TrimSuffix ".jpg" .Name) -}}
+  {{- $exifJson := $.Resources.GetMatch $jsonFilename -}}
+  {{- if $exifJson -}}
+    {{- $exif := (index ($exifJson.Content | unmarshal) 0) -}}
+    {{- if and $exif.DateTimeOriginal (ne $exif.DateTimeOriginal "") -}}
+      {{- $photo := dict "src" . "date" $exif.DateTimeOriginal "exif" $exif -}} <!-- Create a map for each photo -->
+      {{- $photos = $photos | append (slice $photo) -}} <!-- Append map to the slice -->
+    {{- end -}}
+  {{- else -}}
+    <!-- Debug: Notify if JSON is not found -->
+    <p>JSON not found for {{ .Name }} - Searched for: {{ $jsonFilename }}</p>
+  {{- end -}}
+{{- end -}}
+
+{{- $sortedPhotos := sort $photos "date" -}} <!-- Sort photos by date -->
+
+<section class="gallery">
+  {{- if eq (len $sortedPhotos) 0 -}}
+    <p>No photos available.</p>
+  {{- else -}}
+    {{- range $photo := $sortedPhotos -}}
+      <div class="photo">
+        <img src="{{ $photo.src.Permalink }}" alt="{{ $photo.exif.Model }}" loading="lazy" />
+        {{/*  <div class="exif">
+          <p>Camera: {{ $photo.exif.Make }} {{ $photo.exif.Model }}</p>
+          <p>ISO: {{ $photo.exif.ISO }}</p>
+          <p>Focal Length: {{ $photo.exif.FocalLength }}</p>
+          <p>Exposure Time: {{ $photo.exif.ExposureTime }}</p>
+        </div>  */}}
+      </div>
+    {{- end -}}
+  {{- end -}}
+</section>
+
+
 
 {{- end }}{{/* end main */}}

@@ -37,7 +37,7 @@ draft = false
 
 # Introduction
 
-> 🤖 I wrote this article, but it has been reviewed and edited with help from AI tools: ChatGPT and Grammarly.
+> 🤖 _I created this article, but it has been reviewed and refined with help from AI tools: ChatGPT and Grammarly._
 
 Growing up, I used to enjoy watching early morning Sunday TV re-runs of classic shows like *Land of the Giants*, *Voyage to the Bottom of the Sea*, and *Lost in Space*. Another particular favourite was *[Columbo](https://en.wikipedia.org/wiki/Columbo)*. There was something incredibly satisfying about seeing rich, arrogant villains underestimate him, only to be brought down by his relentless pursuit of the truth. Usually, all other fictional detectives (Poirot, Sherlock Holmes, Luther) are "[Brilliant Jerks](https://www.brendangregg.com/blog/2017-11-13/brilliant-jerks.html)". Columbo was interesting because he was the best detective in the world but seemingly didn't even realise it. He treated everyone with respect, even when they didn't necessarily deserve it.
 

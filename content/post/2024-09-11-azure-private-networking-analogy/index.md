@@ -6,6 +6,8 @@ categories = ['cloud']
 keywords = ['azure private networking', 'private link', 'private endpoint', 'private dns zone', 'private dns zone group', 'azure vnet', 'cloud security', 'azure networking analogy', 'azure paas services', 'azure network architecture']
 date = 2024-09-11
 draft = false
+series = ['Azure Analogies']
+aliases = ['/post/2024-09-11-azure-private-networking-metaphor/']
 [cover]
     image = 'cover_image.webp'
     alt = "Azure Private Networking: A Helpful Analogy"
@@ -74,18 +76,6 @@ Let's imagine Azure's private networking as an office phone system:
 In this analogy, your Azure Virtual Network is like the entire office building, with different floors or areas representing your subnets. The public internet is the world outside your office, and by using these private networking components, you're essentially creating a secure, invitation-only communication system within your organization.
 
 This setup not only enhances security by keeping your "conversations" private but also improves efficiency. You don't have to go through a public switchboard (public internet) every time you need to connect to a service – you have direct, private lines at your disposal. 🥳
-
-## How It All Fits Together
-
-To better visualise this, I put together a diagram. Sorry it's a bit squeezy, you might right-click-open in a new tab so you can see it better.
-
-![diagram](diagram.png)
-
-In this setup:
-- Your Virtual Network is like an office building with different departments (subnets).
-- Each department has its own extension (Private Endpoint) connecting to various Azure services via private lines (Private Links).
-- The Private DNS Zones act as specialised phone books for each type of service.
-- The DNS Zone Groups (your PAs) ensure your "phone books" are always up to date.
 
 ## Key Relationships to Remember
 

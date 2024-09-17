@@ -116,6 +116,10 @@ menu:
 pygmentsUseClasses: true
 
 markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
   highlight:
     anchorLineNos: false
     codeFences: true

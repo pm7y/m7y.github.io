@@ -3,7 +3,6 @@ title: m7y.me
 languageCode: en-au
 theme: PaperMod
 defaultTheme: dark
-paginate: 5
 enableRobotsTXT: true
 enableEmoji: true
 disqusShortname: blogilreavy
@@ -11,6 +10,9 @@ googleAnalytics: G-VD4HKY6506
 enableInlineShortcodes: true
 copyright: |
   [Privacy](/privacy/) | © 2024 m7y.me |
+
+pagination:
+  pagerSize: 5
 
 services:
   disqus:

@@ -7,6 +7,7 @@ keywords = ["azure container instance", "aci https", "caddy web server", "bicep 
 
 date = 2024-09-23
 draft = false
+series = ['Azure Container Instances']
 [cover]
     image = 'cover_image.webp'
     alt = "Enabling HTTPS on Azure Container Instances with Caddy"
@@ -86,7 +87,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     isSftpEnabled: false
     isNfsV3Enabled: false
     minimumTlsVersion: 'TLS1_2'
-    allowBlobPublicAccess: true
+    allowBlobPublicAccess: false
     allowSharedKeyAccess: true
     largeFileSharesState: 'Enabled'
     isHnsEnabled: true
@@ -210,8 +211,8 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-07-01'
 
 To deploy the Bicep template, you will need the Azure CLI installed. Follow these steps to deploy the solution:
 
-1. Copy the `.env.template` file and rename it to `.env`.
-2. Populate the `.env` file with the necessary values:
+1. Create an `.env` file.
+2. Populate the `.env` file with the following values:
 
     ```env
     TENANT_ID=
@@ -222,10 +223,42 @@ To deploy the Bicep template, you will need the Azure CLI installed. Follow thes
     STORAGE_ACCOUNT_NAME=
     ```
 
-3. Run the PowerShell script to deploy the resources:
+3. Save and run the PowerShell script to deploy the resources:
 
     ```powershell
-    ./deploy.ps1
+    # Load .env file and set environment variables
+
+    $envFilePath = ".env"
+    if (Test-Path $envFilePath) {
+        Get-Content $envFilePath | ForEach-Object {
+            if ($_ -match "^\s*([^#][^=]+)=(._)\s_$") {
+                $name = $matches[1]
+                $value = $matches[2]
+                [System.Environment]::SetEnvironmentVariable($name, $value)
+                Write-Host "env variable: $name=$value"
+            }
+        }
+    }
+
+    $tenantId = [System.Environment]::GetEnvironmentVariable("TENANT_ID")
+    $subscriptionId = [System.Environment]::GetEnvironmentVariable("SUBSCRIPTION_ID")
+    $resourceGroup = [System.Environment]::GetEnvironmentVariable("RESOURCE_GROUP")
+    $location = [System.Environment]::GetEnvironmentVariable("LOCATION")
+    $containerGroupName = [System.Environment]::GetEnvironmentVariable("CONTAINER_GROUP_NAME")
+    $storageAccountName = [System.Environment]::GetEnvironmentVariable("STORAGE_ACCOUNT_NAME")
+
+    az config set core.login_experience_v2=off # Disable the new login experience to avoid console prompts
+    az login --tenant $tenantId
+
+    az account set --subscription $subscriptionId
+    az group create --name $resourceGroup --location $location
+
+    az deployment group create `
+        --name caddy-hello-world `
+        --resource-group $resourceGroup `
+        --template-file main.bicep `
+        --parameters containerGroupName=$containerGroupName `
+        storageAccountName=$storageAccountName
     ```
 
     > Note: This script will use the values in the `.env` file to deploy the container group with both the Caddy and Hello World containers, ensuring that HTTPS is enabled for the Hello World application

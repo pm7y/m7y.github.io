@@ -59,6 +59,7 @@ params:
   showPageNums: true
   showCodeCopyButtons: true
   disableAnchoredHeadings: false
+  social: true
 
   assets:
     disableHLJS: false

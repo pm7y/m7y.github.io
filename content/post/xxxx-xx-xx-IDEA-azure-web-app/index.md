@@ -17,6 +17,44 @@ draft = true
 
 # Deploying a Typical Web App to Azure
 
+## IDEA
+
+Discuss different ways of architecting a simple azure app service with aure sql database and key vault for secrets.
+
+- cost effectively
+- securely
+- scalably
+- redundantly
+
+This will be a multi-part series. This first post will focus on "cost effectively".
+
+## Web App
+
+- Azure App Service Plan
+  - SKU: Basic
+  - Size: B1
+  - OS: Linux
+  - Location: Australia East
+  - Zone Redundant: Disabled (not available for Basic)
+  
+## Database
+
+- Azure SQL Database
+  - SKU: general purpose
+  - Size: B1
+  - Purchase Model: DTU
+
+## Secrets
+
+- Azure Key Vault
+  - SKU: Standard
+
+## Monitoring
+
+- Azure Monitor with Application Insights
+  - Sku: Basic
+  - Retention: 30 days
+
 > _**tl;dr**_ TODO.
 
 ## Introduction
@@ -24,6 +62,7 @@ draft = true
 TODO.
 
 ##
+
 TODO.
 
 ## Setting Up Azure

@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+	<head>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimal-ui">
+	
+	<title>Paul Mcilreavy - Software Engineering Leader </title>
+
+	<style>
+	* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+
+  background: #ffffff;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 18px;
+  color: #000000;
+  margin: 15px 0;
+  width: 100%;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+em {
+  color: #999;
+}
+
+ul {
+  margin-bottom: 0;
+}
+
+li {
+  margin-bottom: 0.2rem;
+}
+
+a {
+  text-decoration: underline;
+  color: #336699 !important;
+
+  :hover {
+    color: #336699 !important;
+  }
+  :visited {
+    color: #336699 !important;
+  }
+  :active {
+    color: #336699 !important;
+  }
+  :focus {
+    color: #336699 !important;
+  }
+  :link {
+    color: #336699 !important;
+  }
+}
+
+.networkIcon {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.3rem;
+}
+
+#resume {
+  margin: 0 auto;
+  max-width: 750px;
+  padding: 40px 50px;
+  background-color: #fff;
+  color: #000;
+}
+
+.coursesList {
+  width: 28%;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.largeFont {
+  font-size: 1.1rem;
+}
+
+.smallFont {
+  font-size: 0.8rem;
+}
+
+.sectionBlock {
+  display: flex;
+  width: 100%;
+}
+
+.sectionName {
+  width: 9rem;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.sectionContent {
+  width: 37rem;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.sectionContent ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+  list-style-type: circle;
+}
+
+.sectionContent .title {
+  font-weight: bold;
+}
+
+.sectionContent .date {
+  float: right;
+  font-size: 0.8rem;
+}
+
+.sectionContent .separator {
+  height: 0.8rem;
+}
+
+mark {
+  margin: 0 -0.2em;
+  padding: 0.1em 0.3em;
+  border-radius: 0.3em;
+  background: transparent;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 225, 0, 0.2),
+    rgba(255, 225, 0, 0.5),
+    rgba(255, 225, 0, 0.2)
+  );
+
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+
+  -webkit-print-color-adjust: exact !important;
+  color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+#workBlock {
+  .sectionContent .separator {
+    height: 1.5rem;
+  }
+}
+
+.sectionLine {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: #cfcfcf;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.divider {
+  font-weight: bold;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+
+.summary {
+  margin-top: 0.5rem;
+}
+
+.skillBlock {
+  margin-bottom: 0.2rem;
+}
+
+.jobBlock {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+blockquote.reference {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+#basicsBlock {
+  width: 100%;
+  position: relative;
+}
+
+.nameSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#nameBlock {
+  display: flex;
+  flex-direction: column;
+
+  .name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+#skills {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+#certificates {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+#profilesBlock {
+  display: flex;
+  flex-direction: row;
+  padding-top: 0.2rem;
+  width: 100%;
+}
+
+.networkLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.profileImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-left: 20px;
+  border: 2px solid lightgray;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.blockHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 40rem) {
+  body {
+    margin: 0;
+  }
+  a {
+    overflow-wrap: break-word;
+    word-break: break-all;
+  }
+  #resume {
+    margin: 0 auto;
+
+    padding: 0.5rem 1rem;
+    border: none;
+    width: 100% !important;
+    max-width: 40rem !important;
+  }
+  .sectionBlock {
+    flex-direction: column;
+  }
+  .sectionContent {
+    width: 100%;
+  }
+  .sectionContent .date {
+    padding-right: 2rem;
+  }
+  .sectionName {
+    width: auto;
+  }
+  .largeFont {
+    font-size: 1.2rem;
+  }
+  .smallFont {
+    font-size: 0.9rem;
+  }
+
+  #profilesBlock {
+    display: flex;
+    flex-direction: column;
+    .divider {
+      display: none;
+    }
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .profileImage {
+    width: 75px;
+    height: 75px;
+  }
+
+  .blockHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm 15mm 0mm 15mm;
+  }
+
+  title {
+    display: none;
+  }
+  body {
+    font-size: 12px !important;
+    margin: 0mm !important;
+    padding: 0mm !important;
+  }
+  #resume {
+    margin: 0mm !important;
+    padding: 0mm !important;
+    width: 100%;
+    max-width: 100%;
+  }
+  .sectionLine {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .sectionBlock {
+    flex-direction: column;
+  }
+  .sectionContent {
+    width: 100%;
+  }
+  .sectionContent .date {
+    padding-right: 2rem;
+  }
+  .sectionName {
+    width: auto;
+    margin-bottom: 0.3rem;
+  }
+  .largeFont {
+    font-size: 1.2rem;
+  }
+  .smallFont {
+    font-size: 0.8rem;
+  }
+  .certUrl {
+    display: none;
+  }
+  #profilesBlock {
+    display: flex;
+    flex-direction: row;
+    .divider {
+      display: none;
+    }
+  }
+  a {
+    text-decoration: underline !important;
+    color: #336699 !important;
+
+    :hover {
+      color: #336699 !important;
+    }
+    :visited {
+      color: #336699 !important;
+    }
+    :active {
+      color: #336699 !important;
+    }
+    :focus {
+      color: #336699 !important;
+    }
+    :link {
+      color: #336699 !important;
+    }
+  }
+  .sectionContent .separator {
+    height: 0.3rem;
+  }
+  #workBlock,
+  #projectsBlock,
+  #education {
+    .sectionContent .separator {
+      height: 0.6rem;
+    }
+  }
+}
+
+	</style>
+	
+	</head>
+	<body>
+	
+	<div id="resume">
+		  <div id="basicsBlock">
+		      <img src="https://avatars.githubusercontent.com/pm7y" alt="Software Engineering Leader" class="profileImage" />
+		    <div>
+		      <div class="nameSection">
+		        <div id="nameBlock" class="largeFont">
+		          <h1>Paul Mcilreavy</h1>
+		
+		            <span class="label">Software Engineering Leader</span>
+		          </div>
+		      </div>
+		      <div class="smallFont">
+		        <div class="contactBlock">
+		
+		            <span class="email">paul@mcilreavy.com</span>
+		            <span class="divider">|</span>
+		            <span class="phone">0468 491 502</span>
+		          <span class="divider">|</span>
+		          <span class="url">Australian Citizen</span>
+		            <div class="address">
+		              Brisbane, AU
+		            </div>
+		        </div>
+		
+		          <div id="profilesBlock">
+		              <span class="networkLink">
+		                    <img
+		                      src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/linkedin-square-icon.png"
+		                      alt="LinkedIn"
+		                      class="networkIcon"
+		                    />
+		                  <span class="url">
+		                    <a
+		                      href="https://www.linkedin.com/in/pmcilreavy"
+		                      target="_blank"
+		                      title="LinkedIn"
+		                    >https://www.linkedin.com/in/pmcilreavy</a>
+		                  </span>
+		              </span>
+		              <span class="networkLink">
+		                    <img
+		                      src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.png"
+		                      alt="GitHub"
+		                      class="networkIcon"
+		                    />
+		                  <span class="url">
+		                    <a
+		                      href="https://github.com/pm7y"
+		                      target="_blank"
+		                      title="GitHub"
+		                    >https://github.com/pm7y</a>
+		                  </span>
+		              </span>
+		              <span class="networkLink">
+		                    <img
+		                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/link-icon.png"
+		                      alt="Personal Blog"
+		                      class="networkIcon"
+		                    />
+		                                    <span class="url">
+		                    <a
+		                      href="https://m7y.me"
+		                      target="_blank"
+		                      title="Personal Blog"
+		                    >https://m7y.me</a>
+		                  </span>
+		              </span>
+		          </div>
+		
+		      </div>
+		    </div>
+		
+		  </div>
+		
+		
+		  <div class="sectionLine"></div>
+		  <div id="summaryBlock" class="sectionBlock">
+		    <div class="sectionName">
+		      <span>SUMMARY</span>
+		    </div>
+		    <div class="sectionContent">
+		      <span><p>With <mark>20 years of experience</mark> as a <mark>full-stack</mark> developer, software <mark>consultant</mark> and <mark>servant leader</mark>, I am accomplished in building products that solve complex problems and yield real <mark>business value</mark>. I have led <mark>cross-functional teams</mark> through all development life cycle stages, from requirements gathering and <mark>architecture</mark> to implementation, testing, and deployment. I remain hands-on and still love coding, a passion that helps me <mark>mentor</mark> and <mark>empower</mark> teams to deliver exceptional outcomes.</p></span>
+		    </div>
+		  </div>
+		<div class='sectionLine'></div>
+		<div id='skills' class="sectionBlock">
+			<div class='sectionName'>
+				<span>SKILLS</span>
+			</div>
+			<div class='sectionContent'>
+				<div class='skillBlock'>
+					<span class='title'>Leadership:</span>
+					<span>Experienced in <mark>leading teams</mark>, from PR review to communicating a vision that inspires people. Skilled in <mark>stakeholder management</mark>, communicating with c-suite. Able to act as a bridge between the business and development.</span>
+				</div>
+				<div class="separator"></div>
+				<div class='skillBlock'>
+					<span class='title'>Backend:</span>
+					<span>Over 20 years developing with the <mark>'Microsoft stack'</mark> and related tools: .NET, C#, ASP.NET, SQL Server, EF, Mediatr, DDD, Seq, Docker etc. I have created and worked with monoliths, microservices and various distributed architectures.</span>
+				</div>
+				<div class="separator"></div>
+				<div class='skillBlock'>
+					<span class='title'>Frontend:</span>
+					<span>Experienced in <mark>React</mark> and Angular development. My go-to stack is React, <mark>Typescript</mark>, Tailwind, Vite and the TanStack suite.</span>
+				</div>
+				<div class="separator"></div>
+				<div class='skillBlock'>
+					<span class='title'>DevOps:</span>
+					<span>Proficient in creating robust <mark>CI/CD</mark> pipelines using <mark>Azure DevOps</mark> and GitHub Actions. I also have experience with Octopus Deploy. I am proficient with Bicep and ARM templates and have experience with Terraform.</span>
+				</div>
+				<div class="separator"></div>
+				<div class='skillBlock'>
+					<span class='title'>Design:</span>
+					<span>Experienced in incorporating <mark>design thinking</mark> and UI/UX expertise into the development cycle, significantly increasing a product's impact and value.</span>
+				</div>
+				<div class="separator"></div>
+				<div class='skillBlock'>
+					<span class='title'>Cloud:</span>
+					<span>A 'Microsoft Certified <mark>Azure Solutions Architect</mark>' with first-hand experience designing and implementing Azure solutions for many clients.</span>
+				</div>
+				
+			</div>
+		</div>
+		
+
+		<div class='sectionLine'></div>
+		<div id='workBlock' class="sectionBlock">
+			<div class='sectionName'>
+				<span>WORK</span>
+			</div>
+			<div class='sectionContent'>
+				<div class="jobBlock">
+					<div class='blockHeader'>
+						<div><span class='title'>Telstra Purple</span>
+						 | <span class="position">Managing Consultant</span></div>
+						<span class='date'>
+							Sep 2019 &mdash; Present
+						</span>
+					</div>
+					<div class="smallFont"><a href='https://www.linkedin.com/company/telstra-purple/' target="_blank">https://www.linkedin.com/company/telstra-purple/</a></div>
+					<div class="summary">
+						<p>As a <mark>managing consultant</mark> at Telstra Purple and as a member of the QLD squad <mark>leadership group</mark>, I achieved the following: -</p>
+					</div>
+					<ul class='highlights'>
+						<li>led teams of up to 10 developers and delivered successful outcomes on typically large and complex projects, e.g. -<ul><li>an extensive <mark>digital transformation</mark> for <a href='https://www.telstra.com.au/business-enterprise/news-research/case-studies/superior-transport-solutions-for-queensland' target='_blank'>Kangaroo Bus Lines</a>,</li><li> modernisation of a supply chain system for a <a href='https://www.laingorourke.com/media/gk5e4izq/supply-chain-portal-user-guide.pdf' target='_blank'>large construction company</a>,</li><li>a complex <mark>app modernisation</mark> project for an Australian energy operator,</li><li>an <mark>event-driven</mark> solution, integrating multiple apps, for the QLD Department of Child Safety,</li><li>and a bespoke quotation engine for a health insurance provider to name a few.</li></ul></li>
+						<li>planning and execution of strategic initiatives e.g. championing OKRs, performance and salary reviews.</li>
+						<li>guidance and <mark>mentorship</mark> to many squad members via monthly catchups e.g. general support, career development, personal retros and growth.</li>
+						<li>contributed to and led BAU initiatives e.g. Partner certification activities, ISO audits, development of internal applications etc.</li>
+						<li>participated in the <mark>recruitment</mark> process e.g. interviews, reviewing take home code submissions and providing feedback.</li>
+						<li>provided my experience to <mark>pre-sales</mark> pipeline activities and tender responses e.g. initial client sales meetings, request for proposal (RFP) responses, scoping and <mark>project estimation</mark>.</li>
+					</ul>
+					<div class='separator'></div>
+				</div>
+				<div class="jobBlock">
+					<div class='blockHeader'>
+						<div><span class='title'>Readify</span>
+						 | <span class="position">Senior Consultant</span></div>
+						<span class='date'>
+							Nov 2017 &mdash; Sep 2019
+						</span>
+					</div>
+					<div class="smallFont"><a href='https://www.linkedin.com/company/readify/' target="_blank">https://www.linkedin.com/company/readify/</a></div>
+					<div class="summary">
+						<p><mark>Readify</mark> was renowned as one of the top software consultancies in Australia. It was acquired by Telstra in 2019 and rebranded as Telstra Purple. Please refer to the Telstra Purple role above for full details.</p>
+					</div>
+					<div class='separator'></div>
+				</div>
+				<div class="jobBlock">
+					<div class='blockHeader'>
+						<div><span class='title'>Gridstone</span>
+						 | <span class="position">Software Consultant</span></div>
+						<span class='date'>
+							Nov 2016 &mdash; Nov 2017
+						</span>
+					</div>
+					<div class="smallFont"><a href='https://www.linkedin.com/company/motorolasolutions/' target="_blank">https://www.linkedin.com/company/motorolasolutions/</a></div>
+					<div class="summary">
+						<p>Senior member of the 'Mobility Services Project' team for Queensland Police Service (QPS) enabling officers to update and retrieve information via an iPad device, known as 'QLiTE'. Gridstone was acquired by Motorola in late 2016.</p>
+					</div>
+					<ul class='highlights'>
+						<li>I successfully delivered and managed <mark>complex integrations</mark> with existing QPS systems using my 'Microsoft stack' skills,</li>
+						<li>onsite requirements gathering with officers and stakeholders,</li>
+						<li>sprint planning, user story mapping and estimation,</li>
+						<li>project credited with increasing officer safety and significant efficiency improvements (<a href='https://mypolice.qld.gov.au/news/2017/04/20/new-qps-qlite-capability-introduces-spot-banning-notices/' target='_blank'>QPS News Article</a>).</li>
+					</ul>
+					<div class='separator'></div>
+				</div>
+				<div class="jobBlock">
+					<div class='blockHeader'>
+						<div><span class='title'></span>
+						</div>
+					</div>
+					<div class="smallFont"><a href='' target="_blank"></a></div>
+					<div class="summary">
+						<p>In the interest of brevity, I have omitted my remaining employment history. I have a continuous work history since 2000 in various development and leadership roles in the UK and Australia. I have experience in multiple domains, including healthcare, finance, automotive, mining, and government. Please refer to my LinkedIn profile for details.</p>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		  <div class="sectionLine"></div>
+		  <div id="certificates" class="sectionBlock">
+		    <div class="sectionName">
+		      <span>CERTS</span>
+		    </div>
+		    <div class="sectionContent">
+		        <div class="blockHeader">
+		          <span class="title">
+		            Microsoft Certified: Azure AI Fundamentals
+		          </span>
+		          
+		            <span class="date">Feb 2025</span>
+		        </div>
+		          <div class="certUrl smallFont">
+		            <span><a href="https://learn.microsoft.com/api/credentials/share/en-gb/pmcilreavy/291115354A842C6D?sharingId&#x3D;A31EEFC1BE30EC7C" target="_blank">View Credential</a></span>
+		          </div>
+		        <div class="separator"></div>
+		        <div class="blockHeader">
+		          <span class="title">
+		            Microsoft Certified: <mark>Azure Solutions Architect Expert</mark>
+		          </span>
+		          
+		            <span class="date">Nov 2024</span>
+		        </div>
+		          <div class="certUrl smallFont">
+		            <span><a href="https://learn.microsoft.com/api/credentials/share/en-au/pmcilreavy/BE2EEA9CD3D88DC?sharingId&#x3D;A31EEFC1BE30EC7C" target="_blank">View Credential</a></span>
+		          </div>
+		        <div class="separator"></div>
+		        <div class="blockHeader">
+		          <span class="title">
+		            Microsoft Certified: Azure Administrator Associate
+		          </span>
+		          
+		            <span class="date">Aug 2024</span>
+		        </div>
+		          <div class="certUrl smallFont">
+		            <span><a href="https://learn.microsoft.com/api/credentials/share/en-us/pmcilreavy/D77E1620B8CE0789?sharingId&#x3D;A31EEFC1BE30EC7C" target="_blank">View Credential</a></span>
+		          </div>
+		        <div class="separator"></div>
+		        <div class="blockHeader">
+		          <span class="title">
+		            Professional Scrum Master II (PSM II)
+		          </span>
+		          
+		            <span class="date">May 2022</span>
+		        </div>
+		          <div class="certUrl smallFont">
+		            <span><a href="https://www.credly.com/badges/baf1b679-d4bd-4a0b-884a-45da7aa00244" target="_blank">View Credential</a></span>
+		          </div>
+		        <div class="separator"></div>
+		        <div class="blockHeader">
+		          <span class="title">
+		            Professional Scrum Master I (PSM I)
+		          </span>
+		          
+		            <span class="date">Oct 2017</span>
+		        </div>
+		          <div class="certUrl smallFont">
+		            <span><a href="https://www.credly.com/badges/b31d7f15-a391-4241-8719-f2ea9d10e387" target="_blank">View Credential</a></span>
+		          </div>
+		        
+		    </div>
+		  </div>
+		<div class='sectionLine'></div>
+		<div id='projectsBlock' class="sectionBlock">
+			<div class='sectionName'>
+				<span>PROJECTS</span>
+			</div>
+			<div class='sectionContent'>
+				<div class="projectBlock">
+					<div class='blockHeader'>
+						<div><span class='title'>
+							Azure Event Grid Simulator
+						</span>
+						 | <span class="entity">Personal Project</span></div>
+						
+					</div>
+					<div class="smallFont"><a href='https://github.com/pm7y/AzureEventGridSimulator' target="_blank">https://github.com/pm7y/AzureEventGridSimulator</a></div>
+					<div class="description">
+						<p>A personal open-source project, gaining in popularity, that provides a simulator to mimic the functionality of <mark>Azure Event Grid</mark>.</p>
+					</div>
+					<div class='separator'></div>
+				</div>
+				<div class="projectBlock">
+					<div class='blockHeader'>
+						<div><span class='title'>
+							London Air Quality Network
+						</span>
+						 | <span class="entity">Voluntary</span></div>
+						
+					</div>
+					<div class="smallFont"><a href='https://www.londonair.org.uk/Londonair/MobileApps/' target="_blank">https://www.londonair.org.uk/Londonair/MobileApps/</a></div>
+					<div class="description">
+						<p>Provided advice and implemented a variety a solutions including an initial iPhone app to display the latest air pollution levels recorded at monitoring stations across London.</p>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		  <div class="sectionLine"></div>
+		  <div id="education" class="sectionBlock">
+		    <div class="sectionName">
+		      <span>EDUCATION</span>
+		    </div>
+		    <div class="sectionContent">
+		        <div class="blockHeader">
+		          <span class="title">
+		            University of Stirling
+		          </span>
+		            <span class="date">
+		              Aug 1999
+		              &mdash;
+		              Jun 2000
+		            </span>
+		          </div>
+		          <div class="">
+		            MSc 
+		            -
+		            Information Technology
+		          </div>
+					<span>The application of computing technology to provide value in business and commerce environments.</span>
+		      
+		        <div class="separator"></div>
+		        <div class="blockHeader">
+		          <span class="title">
+		            University of Stirling
+		          </span>
+		            <span class="date">
+		              Aug 1995
+		              &mdash;
+		              Jun 1999
+		            </span>
+		          </div>
+		          <div class="">
+		            BSc (Hons) 
+		            -
+		            Environmental Science
+		          </div>
+					<span>Dissertation was on the Caesium-137 distribution in Scotland resulting from the Chernobyl incident.</span>
+		      
+		        
+		    </div>
+		  </div>
+
+		<div class='sectionLine'></div>
+		<div id="references" class="sectionBlock">
+			<div class='sectionName'>
+				<span>REFERENCES</span>
+			</div>
+			<div class="sectionContent">
+				<blockquote class="reference">
+					Full references available on request.
+				
+				</blockquote>
+			</div>
+		</div>
+	</body>
+</html>

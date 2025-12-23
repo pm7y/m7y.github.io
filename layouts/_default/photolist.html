@@ -38,10 +38,12 @@
         {{- $thumb := .Resize "600x" -}}
         {{- $full := .Resize "1600x" -}}
         {{- $altText := replaceRE `[-_]` " " (replaceRE `_\d+_o\.jpg$` "" .Name) -}}
+        {{- $photoId := replaceRE `\s+` "-" (replaceRE `\.[^.]+$` "" .Name) -}}
         <figure class="photo">
           <a href="{{ $full.Permalink }}"
              class="glightbox"
-             data-gallery="photostream">
+             data-gallery="photostream"
+             data-photo-id="{{ $photoId }}">
             <img
               src="{{ $thumb.Permalink }}"
               srcset="{{ $thumb.Permalink }} 600w, {{ $full.Permalink }} 1600w"
@@ -60,12 +62,57 @@
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    GLightbox({
+    const galleryLinks = document.querySelectorAll('.glightbox');
+    let isUpdatingHash = false;
+
+    const lightbox = GLightbox({
       selector: '.glightbox',
       touchNavigation: true,
       loop: true,
       closeButton: true
     });
+
+    // Update URL hash when slide changes
+    lightbox.on('slide_changed', function({ current }) {
+      const photoId = galleryLinks[current.index]?.dataset?.photoId;
+      if (photoId && !isUpdatingHash) {
+        history.pushState(null, '', '#' + photoId);
+      }
+    });
+
+    // Remove hash when lightbox closes
+    lightbox.on('close', function() {
+      if (window.location.hash) {
+        history.pushState(null, '', window.location.pathname);
+      }
+    });
+
+    // Open to specific photo if URL has hash
+    function openFromHash() {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        const index = Array.from(galleryLinks).findIndex(
+          link => link.dataset.photoId === hash
+        );
+        if (index !== -1) {
+          isUpdatingHash = true;
+          lightbox.openAt(index);
+          isUpdatingHash = false;
+        }
+      }
+    }
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', function() {
+      if (window.location.hash) {
+        openFromHash();
+      } else {
+        lightbox.close();
+      }
+    });
+
+    // Check for hash on initial page load
+    openFromHash();
   });
 </script>
 

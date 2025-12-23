@@ -14,6 +14,12 @@ copyright: |
 pagination:
   pagerSize: 5
 
+imaging:
+  exif:
+    disableDate: false
+    disableLatLong: true
+    includeFields: "DateTime.*"
+
 services:
   disqus:
     shortname: blogilreavy

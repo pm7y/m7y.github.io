@@ -8,30 +8,53 @@
 </div>
 {{- end }}
 
-<section class="gallery">
-  {{- $photos := .Resources.Match "**.jpg" -}}
-  {{- if eq (len $photos) 0 -}}
-    <p>No photos available.</p>
-  {{- else -}}
-    {{- range $photos -}}
-      {{- $thumb := .Resize "600x" -}}
-      {{- $full := .Resize "1600x" -}}
-      {{- $altText := replaceRE `[-_]` " " (replaceRE `_\d+_o\.jpg$` "" .Name) -}}
-      <figure class="photo">
-        <a href="{{ $full.Permalink }}"
-           class="glightbox"
-           data-gallery="photostream">
-          <img
-            src="{{ $thumb.Permalink }}"
-            srcset="{{ $thumb.Permalink }} 600w, {{ $full.Permalink }} 1600w"
-            sizes="(max-width: 600px) 100vw, 300px"
-            alt="{{ $altText }}"
-            loading="lazy" />
-        </a>
-      </figure>
+{{- $photosByYear := dict -}}
+{{- $years := slice -}}
+{{- $photos := .Resources.Match "**.jpg" -}}
+
+{{- range $photos -}}
+  {{- $year := "Unknown" -}}
+  {{- with .Exif -}}
+    {{- with .Date -}}
+      {{- $year = .Format "2006" -}}
     {{- end -}}
   {{- end -}}
-</section>
+  {{- $existing := index $photosByYear $year | default (slice) -}}
+  {{- $photosByYear = merge $photosByYear (dict $year ($existing | append .)) -}}
+  {{- if not (in $years $year) -}}
+    {{- $years = $years | append $year -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $years = sort $years "value" "desc" -}}
+
+{{- if eq (len $photos) 0 -}}
+  <p>No photos available.</p>
+{{- else -}}
+  {{- range $year := $years -}}
+    <h2 class="year-heading">{{ $year }}</h2>
+    <section class="gallery">
+      {{- range index $photosByYear $year -}}
+        {{- $thumb := .Resize "600x" -}}
+        {{- $full := .Resize "1600x" -}}
+        {{- $altText := replaceRE `[-_]` " " (replaceRE `_\d+_o\.jpg$` "" .Name) -}}
+        <figure class="photo">
+          <a href="{{ $full.Permalink }}"
+             class="glightbox"
+             data-gallery="photostream">
+            <img
+              src="{{ $thumb.Permalink }}"
+              srcset="{{ $thumb.Permalink }} 600w, {{ $full.Permalink }} 1600w"
+              sizes="(max-width: 600px) 100vw, 300px"
+              alt="{{ $altText }}"
+              loading="lazy" />
+            <span class="photo-title">{{ $altText }}</span>
+          </a>
+        </figure>
+      {{- end -}}
+    </section>
+  {{- end -}}
+{{- end -}}
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>

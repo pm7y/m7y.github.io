@@ -103,14 +103,17 @@ menu:
     - name: 🏠
       url: /
       weight: 1
-    - name: Search
-      url: search/
-      weight: 10
+    - name: Photos
+      url: /post/photostream
+      weight: 50
     - name: Tags
       url: tags/
-      weight: 20
+      weight: 10
     - name: Categories
       url: categories/
+      weight: 20
+    - name: Search
+      url: search/
       weight: 30
     - name: Archive
       url: archives/

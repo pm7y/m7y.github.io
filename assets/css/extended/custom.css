@@ -347,3 +347,55 @@
 /* TextWhitespace */
 .chroma .w {
 }
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.photo {
+  flex: 1 1 280px;
+  max-width: 450px;
+  height: 220px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.photo a {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.photo img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.photo:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gallery {
+    gap: 4px;
+  }
+  .photo {
+    flex-basis: 160px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo {
+    flex-basis: 140px;
+    height: 140px;
+  }
+}
+

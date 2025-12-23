@@ -1,0 +1,49 @@
+{{- define "main" }}
+
+{{- if .Content }}
+<div class="post-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
+</div>
+{{- end }}
+
+<section class="gallery">
+  {{- $photos := .Resources.Match "**.jpg" -}}
+  {{- if eq (len $photos) 0 -}}
+    <p>No photos available.</p>
+  {{- else -}}
+    {{- range $photos -}}
+      {{- $thumb := .Resize "600x" -}}
+      {{- $full := .Resize "1600x" -}}
+      {{- $altText := replaceRE `[-_]` " " (replaceRE `_\d+_o\.jpg$` "" .Name) -}}
+      <figure class="photo">
+        <a href="{{ $full.Permalink }}"
+           class="glightbox"
+           data-gallery="photostream">
+          <img
+            src="{{ $thumb.Permalink }}"
+            srcset="{{ $thumb.Permalink }} 600w, {{ $full.Permalink }} 1600w"
+            sizes="(max-width: 600px) 100vw, 300px"
+            alt="{{ $altText }}"
+            loading="lazy" />
+        </a>
+      </figure>
+    {{- end -}}
+  {{- end -}}
+</section>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    GLightbox({
+      selector: '.glightbox',
+      touchNavigation: true,
+      loop: true,
+      closeButton: true
+    });
+  });
+</script>
+
+{{- end }}{{/* end main */}}

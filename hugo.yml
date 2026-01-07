@@ -108,9 +108,6 @@ menu:
     - name: 🏠
       url: /
       weight: 1
-    - name: Photos
-      url: /post/photostream
-      weight: 50
     - name: Tags
       url: tags/
       weight: 10
